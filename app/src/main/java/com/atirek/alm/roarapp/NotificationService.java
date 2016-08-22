@@ -317,6 +317,7 @@ public class NotificationService extends Service {
 
                 Constants.isClosed = true;
                 //stopMedia();
+                NewMediaPlayer.songProgress();
                 Constants.mediaPlayer.reset();
                 stopForeground(true);
 
