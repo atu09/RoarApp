@@ -672,7 +672,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                     requestPermission(2);
                 } else {
                     Toast.makeText(NewMediaPlayer.this, "Permission Denied", Toast.LENGTH_SHORT).show();
-                    finish();
+                    requestPermission(2);
                 }
                 break;
 
@@ -683,7 +683,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
                 } else {
                     Toast.makeText(NewMediaPlayer.this, "Permission Denied", Toast.LENGTH_SHORT).show();
-                    finish();
+                    requestPermission(1);
                 }
                 break;
         }
