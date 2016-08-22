@@ -411,10 +411,6 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                     TimeUnit.MILLISECONDS.toSeconds((long) duration)
                             - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) duration))));
 
-            tv_voiceTotalDuration.setText(String.format("%02d:%02d",
-                    TimeUnit.MILLISECONDS.toMinutes((long) duration),
-                    TimeUnit.MILLISECONDS.toSeconds((long) duration)
-                            - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) duration))));
             holder.layout.setBackgroundColor(Color.parseColor(songRow.getColorCode()));
             holder.imageButtonPlay.bringToFront();
 
