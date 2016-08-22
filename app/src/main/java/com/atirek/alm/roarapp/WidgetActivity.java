@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.widget.RemoteViews;
 
@@ -59,7 +60,19 @@ public class WidgetActivity extends AppWidgetProvider {
         //
 
 
-        remoteViews.setImageViewResource(R.id.civ_user_profileWidget, R.drawable.ph_user);
+        try {
+            Bitmap bitmap = BitmapFactory.decodeFile(Constants.arrayList.get(Constants.pos).getProfileUrl());
+            Bitmap emptyBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
+
+            if (!bitmap.sameAs(emptyBitmap)) {
+                remoteViews.setImageViewBitmap(R.id.civ_user_profileWidget, bitmap);
+            } else {
+                remoteViews.setImageViewResource(R.id.civ_user_profileWidget, R.drawable.ph_user);
+            }
+        } catch (Exception e) {
+            remoteViews.setImageViewResource(R.id.civ_user_profileWidget, R.drawable.ph_user);
+        }
+
 
 /*
         if (Constants.arrayList.get(Constants.pos).getProfileUrl().equals("") ||
