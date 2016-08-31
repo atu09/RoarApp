@@ -233,7 +233,8 @@ public class NotificationService extends Service {
 
                 Log.d("Position>>>>", Constants.pos + "");
 
-                if (!Constants.arrayList.isEmpty()) {
+
+                if (!Constants.arrayList.isEmpty() && !Constants.arrayList.get(Constants.pos).isBuffer()) {
 
 
                     if (Constants.pos < 0 || Constants.pos > Constants.arrayList.size() - 1) {
@@ -253,19 +254,22 @@ public class NotificationService extends Service {
 
                         Constants.isPlaying = false;
 
+                        //CODE START - For Play & Stop from NotificationBar
                         Constants.arrayList.get(Constants.pos).setPlaying(false);
                         Constants.arrayList.get(Constants.pos).setBuffer(false);
                         Constants.arrayList.get(Constants.pos).setPaused(false);
-
                         Constants.timeLeft = Constants.mediaPlayer.getDuration();
                         stopMedia();
+                        //CODE END - For Play & Stop from NotificationBar
 
+                        //CODE START - For Play & Pause from NotificationBar
 /*
-                    Constants.isPlaying = false;
-                    Constants.isClicked = true;
-                    Constants.mediaPlayer.pause();
-                    Constants.arrayList.get(Constants.pos).setPaused(true);
+                        Constants.isPlaying = false;
+                        Constants.isClicked = true;
+                        Constants.mediaPlayer.pause();
+                        Constants.arrayList.get(Constants.pos).setPaused(true);
 */
+                        //CODE END - For Play & Pause from NotificationBar
 
                         if (Constants.isRunning) {
                             NewMediaPlayer.songsAdapter.notifyDataSetChanged();
