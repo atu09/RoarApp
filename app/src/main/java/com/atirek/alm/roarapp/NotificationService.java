@@ -124,7 +124,7 @@ public class NotificationService extends Service {
 
 
             if (Constants.arrayList.get(Constants.pos).isBuffer() || Constants.arrayList.get(Constants.pos).isPlaying()) {
-                bigViews.setImageViewResource(R.id.btnPlay09, R.drawable.notification_stop);
+                bigViews.setImageViewResource(R.id.btnPlay09, R.drawable.home_pause);
                 status = new Notification.Builder(this).setSmallIcon(android.R.drawable.ic_media_pause).setContent(bigViews).build();
             } else {
                 bigViews.setImageViewResource(R.id.btnPlay09, R.drawable.home_play);

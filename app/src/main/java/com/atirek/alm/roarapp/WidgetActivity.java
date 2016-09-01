@@ -89,7 +89,7 @@ public class WidgetActivity extends AppWidgetProvider {
 
         if(!Constants.arrayList.isEmpty()) {
             if (Constants.arrayList.get(Constants.pos).isBuffer() || Constants.arrayList.get(Constants.pos).isPlaying()) {
-                remoteViews.setImageViewResource(R.id.btnPlayWidget, R.drawable.notification_stop);
+                remoteViews.setImageViewResource(R.id.btnPlayWidget, R.drawable.home_pause);
             } else {
                 remoteViews.setImageViewResource(R.id.btnPlayWidget, R.drawable.home_play);
             }
