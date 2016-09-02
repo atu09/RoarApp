@@ -126,10 +126,10 @@ public class NotificationService extends Service {
 
             if (Constants.arrayList.get(Constants.pos).isBuffer() || Constants.arrayList.get(Constants.pos).isPlaying()) {
                 bigViews.setImageViewResource(R.id.btnPlay09, R.drawable.home_pause);
-                status = new Notification.Builder(this).setSmallIcon(android.R.drawable.ic_media_pause).setContent(bigViews).setAutoCancel(false).build();
+                status = new Notification.Builder(this).setSmallIcon(android.R.drawable.ic_media_pause).setContent(bigViews).setOngoing(true).setAutoCancel(false).build();
             } else {
                 bigViews.setImageViewResource(R.id.btnPlay09, R.drawable.home_play);
-                status = new Notification.Builder(this).setSmallIcon(android.R.drawable.ic_media_play).setContent(bigViews).setAutoCancel(true).build();
+                status = new Notification.Builder(this).setSmallIcon(android.R.drawable.ic_media_play).setContent(bigViews).setOngoing(false).setAutoCancel(true).build();
             }
             status.flags = Notification.FLAG_ONGOING_EVENT;
 
@@ -256,20 +256,20 @@ public class NotificationService extends Service {
                         Constants.isPlaying = false;
 
                         //CODE START - For Play & Stop from NotificationBar
+/*
                         Constants.arrayList.get(Constants.pos).setPlaying(false);
                         Constants.arrayList.get(Constants.pos).setBuffer(false);
                         Constants.arrayList.get(Constants.pos).setPaused(false);
                         Constants.timeLeft = Constants.mediaPlayer.getDuration();
                         stopMedia();
+*/
                         //CODE END - For Play & Stop from NotificationBar
 
                         //CODE START - For Play & Pause from NotificationBar
-/*
                         Constants.isPlaying = false;
                         Constants.isClicked = true;
                         Constants.mediaPlayer.pause();
                         Constants.arrayList.get(Constants.pos).setPaused(true);
-*/
                         //CODE END - For Play & Pause from NotificationBar
 
                         if (Constants.isRunning) {
