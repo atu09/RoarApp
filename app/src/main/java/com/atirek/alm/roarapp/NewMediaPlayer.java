@@ -31,9 +31,6 @@ import com.atirek.alm.roarapp.CustomClasses.MyListView;
 import com.atirek.alm.roarapp.CustomClasses.MySlidingDrawer;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -64,7 +61,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
     public static TextView tv_songCategory;
     public static TextView tv_userName;
     public static ImageButton btn_close_drawer;
-    public static CircleImageView civ_userProfile;
+    public static CircleImageView civ_drawerSongImage;
 
     public static LinearLayout linearLayout_back;
 
@@ -75,7 +72,8 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
     public static double timeRemaining = 0;
 
     static MySlidingDrawer mySlidingDrawer;
-    static CircleImageView civ_open_drawer;
+    static ImageView iv_open_drawer;
+    public static CircleImageView civ_songImage;
 
     public static ViewHolder holder;
 
@@ -106,7 +104,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         listView = (MyListView) findViewById(R.id.listView_songs);
         mySlidingDrawer = (MySlidingDrawer) findViewById(R.id.slidingDrawerNew);
 
-        civ_open_drawer = (CircleImageView) findViewById(R.id.civ_OpenDrawer);
+        iv_open_drawer = (ImageView) findViewById(R.id.iv_OpenDrawer);
 
         btn_play2 = (ImageButton) findViewById(R.id.btnPlay2);
         btn_next2 = (ImageButton) findViewById(R.id.btnForward2);
@@ -115,7 +113,8 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         tv_voiceTotalDuration = (TextView) findViewById(R.id.tv_voiceDuration);
         btn_close_drawer = (ImageButton) findViewById(R.id.btn_close_drawer);
 
-        civ_userProfile = (CircleImageView) findViewById(R.id.civ_user_profile);
+        civ_drawerSongImage = (CircleImageView) findViewById(R.id.civ_song_image);
+        civ_songImage = (CircleImageView) findViewById(R.id.civ_songImage);
         linearLayout_back = (LinearLayout) findViewById(R.id.content_background);
         tv_currentVoiceProgress = (TextView) findViewById(R.id.tv_currentVoiceProgress);
         tv_songCategory = (TextView) findViewById(R.id.tv_categoryName);
@@ -137,7 +136,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             }
         });
 
-        civ_open_drawer.setOnClickListener(new View.OnClickListener() {
+        iv_open_drawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

@@ -514,12 +514,15 @@ public class NotificationService extends Service {
             Bitmap emptyBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
 
             if (!bitmap.sameAs(emptyBitmap)) {
-                NewMediaPlayer.civ_userProfile.setImageBitmap(BitmapFactory.decodeFile(Constants.arrayList.get(Constants.pos).getProfileUrl()));
+                NewMediaPlayer.civ_drawerSongImage.setImageBitmap(BitmapFactory.decodeFile(Constants.arrayList.get(Constants.pos).getProfileUrl()));
+                NewMediaPlayer.civ_songImage.setImageBitmap(BitmapFactory.decodeFile(Constants.arrayList.get(Constants.pos).getProfileUrl()));
             } else {
-                NewMediaPlayer.civ_userProfile.setImageResource(R.drawable.ph_user);
+                NewMediaPlayer.civ_drawerSongImage.setImageResource(R.drawable.ph_user);
+                NewMediaPlayer.civ_songImage.setImageResource(R.drawable.ph_user);
             }
         } catch (Exception e) {
-            NewMediaPlayer.civ_userProfile.setImageResource(R.drawable.ph_user);
+            NewMediaPlayer.civ_drawerSongImage.setImageResource(R.drawable.ph_user);
+            NewMediaPlayer.civ_songImage.setImageResource(R.drawable.ph_user);
         }
 
 /*
@@ -531,10 +534,10 @@ public class NotificationService extends Service {
                         Constants.arrayList.get(Constants.pos).getProfileUrl().equals("null") ||
                         Constants.arrayList.get(Constants.pos).getProfileUrl().equals(null)) {
 
-                    Picasso.with(service).load(R.drawable.ph_user).placeholder(R.drawable.ph_user).error(R.drawable.ph_user).resize(NewMediaPlayer.civ_userProfile.getWidth(), NewMediaPlayer.civ_userProfile.getHeight()).into(NewMediaPlayer.civ_userProfile);
+                    Picasso.with(service).load(R.drawable.ph_user).placeholder(R.drawable.ph_user).error(R.drawable.ph_user).resize(NewMediaPlayer.civ_drawerSongImage.getWidth(), NewMediaPlayer.civ_drawerSongImage.getHeight()).into(NewMediaPlayer.civ_drawerSongImage);
 
                 } else {
-                    Picasso.with(service).load(Constants.arrayList.get(position).getProfileUrl()).placeholder(R.drawable.ph_user).error(R.drawable.ph_user).resize(NewMediaPlayer.civ_userProfile.getWidth(), NewMediaPlayer.civ_userProfile.getHeight()).into(NewMediaPlayer.civ_userProfile);
+                    Picasso.with(service).load(Constants.arrayList.get(position).getProfileUrl()).placeholder(R.drawable.ph_user).error(R.drawable.ph_user).resize(NewMediaPlayer.civ_drawerSongImage.getWidth(), NewMediaPlayer.civ_drawerSongImage.getHeight()).into(NewMediaPlayer.civ_drawerSongImage);
                 }
 
             } catch (Exception e) {
