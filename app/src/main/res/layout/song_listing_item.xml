@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFF"
-    android:descendantFocusability="blocksDescendants"
     android:gravity="center_vertical"
     android:padding="10dp">
 
@@ -13,7 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:descendantFocusability="blocksDescendants"
         android:orientation="vertical">
 
         <TextView
@@ -37,7 +35,7 @@
                 android:text="Total Duration : "
                 android:textColor="#FFF"
                 android:textSize="10dp"
-                android:textStyle="italic" />
+                android:textStyle="bold" />
 
 
             <TextView
@@ -48,7 +46,7 @@
                 android:text="00:00"
                 android:textColor="#FFF"
                 android:textSize="10dp"
-                android:textStyle="italic" />
+                android:textStyle="bold" />
 
 
         </TableRow>
