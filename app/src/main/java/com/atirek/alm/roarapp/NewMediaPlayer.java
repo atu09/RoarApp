@@ -129,7 +129,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             @Override
             public void onClick(View view) {
                 if (Constants.isCarMode) {
-                    //stopService();
+                    stopService();
                     mySlidingDrawer.close();
                     Constants.isCarMode = false;
                 }
@@ -141,7 +141,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             public void onClick(View view) {
 
                 if (Constants.isCarMode) {
-                    //stopService();
+                    stopService();
                     mySlidingDrawer.close();
                     Constants.isCarMode = false;
                 } else {
