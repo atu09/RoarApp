@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -372,6 +373,10 @@ public class NotificationService extends Service {
 
 
     public static void play(final int position, final boolean isNext) {
+
+        if (NewMediaPlayer.result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            return;
+        }
 
 
         if (Constants.arrayList.get(position).isPaused) {
