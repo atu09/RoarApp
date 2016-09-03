@@ -25,13 +25,12 @@ import com.squareup.picasso.Target;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-public class NotificationService extends Service {
+public class NotificationService extends Service implements AudioManager.OnAudioFocusChangeListener {
 
     public static Notification status;
     private final String LOG_TAG = "NotificationService";
     public static RemoteViews bigViews;
     public static NotificationService service;
-
 
     public void showNotification() {
 
@@ -373,10 +372,7 @@ public class NotificationService extends Service {
 
     public static void play(final int position) {
 
-        if (NewMediaPlayer.result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            return;
-        }
-
+        NewMediaPlayer.audioManager.requestAudioFocus(service, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 
         if (Constants.arrayList.get(position).isPaused) {
 
@@ -548,5 +544,28 @@ public class NotificationService extends Service {
 
     }
 
+
+    @Override
+    public void onAudioFocusChange(int focusChange) {
+
+/*
+        if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
+            // Pause
+        } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+            // Resume
+        } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+            // Stop or pause depending on your need
+        }
+*/
+
+        playService();
+
+    }
+
+    public void playService() {
+        Intent serviceIntent = new Intent(this, NotificationService.class);
+        serviceIntent.setAction(Constants.ACTION.PLAY_ACTION);
+        startService(serviceIntent);
+    }
 
 }

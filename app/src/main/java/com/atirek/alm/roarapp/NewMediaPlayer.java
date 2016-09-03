@@ -41,7 +41,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 
-public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnClickListener, AudioManager.OnAudioFocusChangeListener {
+public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnClickListener {
 
     public static Handler mHandler = new Handler();
 
@@ -82,8 +82,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
     public static Context context;
 
-    AudioManager audioManager;
-    public static int result;
+    public static AudioManager audioManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,7 +99,6 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         }
 
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
 
         listView = (MyListView) findViewById(R.id.listView_songs);
         mySlidingDrawer = (MySlidingDrawer) findViewById(R.id.slidingDrawerNew);
@@ -283,21 +281,6 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         btn_play2.setImageResource(R.drawable.home_play);
         btn_play2.setEnabled(true);
         songsAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onAudioFocusChange(int focusChange) {
-        if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
-            // Pause
-            //playService();
-        } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
-            // Resume
-            //playService();
-        } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
-            // Stop or pause depending on your need
-            //playService();
-            //stopService();
-        }
     }
 
     public class ViewHolder {
