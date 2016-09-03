@@ -109,7 +109,7 @@
             android:layout_gravity="center"
             android:visibility="visible"
             app:cpv_animAutostart="false"
-            app:cpv_color="@color/cpv_default_color"
+            app:cpv_color="#a9a9a9"
             app:cpv_indeterminate="true"
             app:cpv_thickness="4dp" />
 
