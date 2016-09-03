@@ -24,6 +24,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -304,6 +305,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         TextView songName, songUrl, songTotalDuration, songCurrentDuration;
         CircularProgressView circularProgressView;
         LinearLayout layout;
+        ProgressBar circularProgressBar;
 
     }
 
@@ -397,6 +399,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             if (view == null)
                 return;
 
+            ((ProgressBar) view.findViewById(R.id.circularProgressBar)).setProgress((int) startTime);
             ((TextView) view.findViewById(R.id.songCurrentDuration)).setText(String.format("%02d:%02d",
                     TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining),
                     TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining)
@@ -419,6 +422,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                 holder.songCurrentDuration = (TextView) convertView.findViewById(R.id.songCurrentDuration);
                 holder.layout = (LinearLayout) convertView.findViewById(R.id.listing_item_back);
                 holder.circularProgressView = (CircularProgressView) convertView.findViewById(R.id.circularProgress);
+                holder.circularProgressBar = (ProgressBar) convertView.findViewById(R.id.circularProgressBar);
                 convertView.setTag(holder);
 
 
@@ -439,6 +443,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                     TimeUnit.MILLISECONDS.toMinutes((long) duration),
                     TimeUnit.MILLISECONDS.toSeconds((long) duration)
                             - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) duration))));
+            holder.circularProgressBar.setMax((int) duration);
 
             holder.layout.setBackgroundColor(Color.parseColor(songRow.getColorCode()));
             holder.imageButtonPlay.bringToFront();
@@ -464,6 +469,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
                 } else {
                     if (holder.circularProgressView.getVisibility() == View.VISIBLE) {
+                        holder.circularProgressView.setIndeterminate(false);
                         holder.circularProgressView.stopAnimation();
                         holder.circularProgressView.setVisibility(View.INVISIBLE);
                         holder.imageButtonPlay.setEnabled(true);
@@ -483,6 +489,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                             TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining),
                             TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining)
                                     - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
+                    holder.circularProgressBar.setProgress((int) startTime);
 
                 }
 
@@ -491,6 +498,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                             TimeUnit.MILLISECONDS.toMinutes((long) duration),
                             TimeUnit.MILLISECONDS.toSeconds((long) duration)
                                     - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) duration))));
+                    holder.circularProgressBar.setProgress(0);
                 }
 
                 if (holder.circularProgressView.getVisibility() == View.VISIBLE) {
@@ -597,7 +605,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             songProgress();
         }
 
-        if(Constants.isBatMode){
+        if (Constants.isBatMode) {
             mySlidingDrawer.open();
         }
 

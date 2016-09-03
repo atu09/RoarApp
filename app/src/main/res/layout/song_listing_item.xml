@@ -4,7 +4,7 @@
     android:id="@+id/listing_item_back"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#000"
+    android:background="@color/black"
     android:gravity="center_vertical"
     android:padding="10dp">
 
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="Song Name"
-            android:textColor="#FFF"
+            android:textColor="@color/white"
             android:textSize="16dp"
             android:textStyle="italic" />
 
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="Total Duration : "
-                android:textColor="#FFF"
+                android:textColor="@color/white"
                 android:textSize="10dp"
                 android:textStyle="bold" />
 
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="00:00"
-                android:textColor="#FFF"
+                android:textColor="@color/white"
                 android:textSize="10dp"
                 android:textStyle="bold" />
 
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="Current Duration : "
-                android:textColor="#FFF"
+                android:textColor="@color/white"
                 android:textSize="10dp"
                 android:textStyle="bold" />
 
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="00:00"
-                android:textColor="#FFF"
+                android:textColor="@color/white"
                 android:textSize="10dp"
                 android:textStyle="bold" />
 
@@ -85,7 +85,7 @@
         android:layout_weight="1"
         android:singleLine="true"
         android:text="Song Url"
-        android:textColor="#FFF"
+        android:textColor="@color/white"
         android:textSize="12dp"
         android:visibility="gone" />
 
@@ -109,9 +109,19 @@
             android:layout_gravity="center"
             android:visibility="visible"
             app:cpv_animAutostart="false"
-            app:cpv_color="#000"
+            app:cpv_color="@color/cpv_default_color"
             app:cpv_indeterminate="true"
             app:cpv_thickness="4dp" />
+
+        <ProgressBar
+            android:id="@+id/circularProgressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:indeterminate="false"
+            android:progress="100"
+            android:progressDrawable="@drawable/progress_bar" />
 
     </FrameLayout>
 

@@ -26,5 +26,4 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile "com.squareup.picasso:picasso:2.4.0"
     compile 'com.github.rahatarmanahmed:circularprogressview:2.5.0'
-
 }
