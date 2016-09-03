@@ -183,7 +183,6 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         startService(serviceIntent);
     }
 
-
     @Override
     public void onClick(View view) {
         int id = view.getId();
