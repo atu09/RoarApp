@@ -81,7 +81,7 @@ public class NotificationService extends Service implements AudioManager.OnAudio
 
 
             try {
-                Bitmap bitmap = BitmapFactory.decodeFile(Constants.arrayList.get(Constants.pos).getProfileUrl());
+                Bitmap bitmap = BitmapFactory.decodeFile(Constants.arrayList.get(Constants.position).getProfileUrl());
                 Bitmap emptyBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
 
                 if (!bitmap.sameAs(emptyBitmap)) {
@@ -95,23 +95,23 @@ public class NotificationService extends Service implements AudioManager.OnAudio
 
 
 /*
-            if (Constants.arrayList.get(Constants.pos).getProfileUrl().equals("") ||
-                    Constants.arrayList.get(Constants.pos).getProfileUrl().isEmpty() ||
-                    Constants.arrayList.get(Constants.pos).getProfileUrl().equals("null") ||
-                    Constants.arrayList.get(Constants.pos).getProfileUrl().equals(null)) {
+            if (Constants.arrayList.get(Constants.position).getProfileUrl().equals("") ||
+                    Constants.arrayList.get(Constants.position).getProfileUrl().isEmpty() ||
+                    Constants.arrayList.get(Constants.position).getProfileUrl().equals("null") ||
+                    Constants.arrayList.get(Constants.position).getProfileUrl().equals(null)) {
 
                 bigViews.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
 
             } else {
-                loadBitmap(Constants.arrayList.get(Constants.pos).getProfileUrl());
+                loadBitmap(Constants.arrayList.get(Constants.position).getProfileUrl());
             }
 */
 
-            bigViews.setTextViewText(R.id.tv_userName09, Constants.arrayList.get(Constants.pos).getArtistName());
+            bigViews.setTextViewText(R.id.tv_userName09, Constants.arrayList.get(Constants.position).getArtistName());
 
-            bigViews.setTextViewText(R.id.tv_voiceTitle09, Constants.arrayList.get(Constants.pos).getSongsName());
+            bigViews.setTextViewText(R.id.tv_voiceTitle09, Constants.arrayList.get(Constants.position).getSongsName());
 
-            bigViews.setTextViewText(R.id.tv_categoryName09, Constants.arrayList.get(Constants.pos).getSongCategory());
+            bigViews.setTextViewText(R.id.tv_categoryName09, Constants.arrayList.get(Constants.position).getSongCategory());
 
 
             //********************************************************************************
@@ -123,7 +123,7 @@ public class NotificationService extends Service implements AudioManager.OnAudio
                             - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) Constants.timeLeft))));
 
 
-            if (Constants.arrayList.get(Constants.pos).isBuffer() || Constants.arrayList.get(Constants.pos).isPlaying()) {
+            if (Constants.arrayList.get(Constants.position).isBuffer() || Constants.arrayList.get(Constants.position).isPlaying()) {
                 bigViews.setImageViewResource(R.id.btnPlay09, R.drawable.home_pause);
                 status = new Notification.Builder(this).setSmallIcon(android.R.drawable.ic_media_pause).setContent(bigViews).build();
             } else {
@@ -213,15 +213,15 @@ public class NotificationService extends Service implements AudioManager.OnAudio
 
                 saver();
 
-                Constants.pos = Constants.pos - 1;
+                Constants.position = Constants.position - 1;
                 Constants.isPlaying = true;
                 stopMedia();
 
-                if (Constants.pos >= 0 && Constants.pos <= Constants.arrayList.size() - 1) {
-                    play(Constants.pos);
+                if (Constants.position >= 0 && Constants.position <= Constants.arrayList.size() - 1) {
+                    play(Constants.position);
                 } else {
-                    Constants.pos = Constants.arrayList.size() - 1;
-                    play(Constants.pos);
+                    Constants.position = Constants.arrayList.size() - 1;
+                    play(Constants.position);
                 }
 
                 Log.i(LOG_TAG, "Previous");
@@ -230,18 +230,18 @@ public class NotificationService extends Service implements AudioManager.OnAudio
 
                 saver();
 
-                Log.d("Position>>>>", Constants.pos + "");
+                Log.d("Position>>>>", Constants.position + "");
 
 
-                if (!Constants.arrayList.isEmpty() && !Constants.arrayList.get(Constants.pos).isBuffer()) {
+                if (!Constants.arrayList.isEmpty() && !Constants.arrayList.get(Constants.position).isBuffer()) {
 
 
-                    if (Constants.pos < 0 || Constants.pos > Constants.arrayList.size() - 1) {
-                        Constants.pos = 0;
+                    if (Constants.position < 0 || Constants.position > Constants.arrayList.size() - 1) {
+                        Constants.position = 0;
                     }
 
-                    Constants.arrayList.get(Constants.pos).setPlaying(false);
-                    Constants.arrayList.get(Constants.pos).setBuffer(false);
+                    Constants.arrayList.get(Constants.position).setPlaying(false);
+                    Constants.arrayList.get(Constants.position).setBuffer(false);
 
                     if (Constants.isPlaying) {
 
@@ -253,9 +253,9 @@ public class NotificationService extends Service implements AudioManager.OnAudio
 
                         //CODE START - For Play & Stop from NotificationBar
 /*
-                        Constants.arrayList.get(Constants.pos).setPlaying(false);
-                        Constants.arrayList.get(Constants.pos).setBuffer(false);
-                        Constants.arrayList.get(Constants.pos).setPaused(false);
+                        Constants.arrayList.get(Constants.position).setPlaying(false);
+                        Constants.arrayList.get(Constants.position).setBuffer(false);
+                        Constants.arrayList.get(Constants.position).setPaused(false);
                         Constants.timeLeft = Constants.mediaPlayer.getDuration();
                         stopMedia();
 */
@@ -264,7 +264,7 @@ public class NotificationService extends Service implements AudioManager.OnAudio
                         //CODE START - For Play & Pause from NotificationBar
                         Constants.isPlaying = false;
                         Constants.mediaPlayer.pause();
-                        Constants.arrayList.get(Constants.pos).setPaused(true);
+                        Constants.arrayList.get(Constants.position).setPaused(true);
                         //CODE END - For Play & Pause from NotificationBar
 
                         if (Constants.isRunning) {
@@ -275,7 +275,7 @@ public class NotificationService extends Service implements AudioManager.OnAudio
                         //stopForeground(true);
 
                     } else {
-                        play(Constants.pos);
+                        play(Constants.position);
                     }
 
                     Log.i(LOG_TAG, "Play");
@@ -287,15 +287,15 @@ public class NotificationService extends Service implements AudioManager.OnAudio
 
                 Log.i(LOG_TAG, "Next");
 
-                Constants.pos = Constants.pos + 1;
+                Constants.position = Constants.position + 1;
                 Constants.isPlaying = true;
                 stopMedia();
 
-                if (Constants.pos >= 0 && Constants.pos <= Constants.arrayList.size() - 1) {
-                    play(Constants.pos);
+                if (Constants.position >= 0 && Constants.position <= Constants.arrayList.size() - 1) {
+                    play(Constants.position);
                 } else {
-                    Constants.pos = 0;
-                    play(Constants.pos);
+                    Constants.position = 0;
+                    play(Constants.position);
                 }
 
 
@@ -309,9 +309,9 @@ public class NotificationService extends Service implements AudioManager.OnAudio
 
                 Constants.isPlaying = false;
 
-                Constants.arrayList.get(Constants.pos).setPlaying(false);
-                Constants.arrayList.get(Constants.pos).setBuffer(false);
-                Constants.arrayList.get(Constants.pos).setPaused(false);
+                Constants.arrayList.get(Constants.position).setPlaying(false);
+                Constants.arrayList.get(Constants.position).setBuffer(false);
+                Constants.arrayList.get(Constants.position).setPaused(false);
 
                 Constants.isClosed = true;
                 //stopMedia();
@@ -340,9 +340,9 @@ public class NotificationService extends Service implements AudioManager.OnAudio
 
     public void saver() {
 
-        if (Constants.pos != -1) {
-            Constants.arrayList.get(Constants.pos).setPlaying(false);
-            Constants.arrayList.get(Constants.pos).setBuffer(false);
+        if (Constants.position != -1) {
+            Constants.arrayList.get(Constants.position).setPlaying(false);
+            Constants.arrayList.get(Constants.position).setBuffer(false);
 
             if (Constants.isRunning) {
                 NewMediaPlayer.songsAdapter.notifyDataSetChanged();
@@ -433,6 +433,7 @@ public class NotificationService extends Service implements AudioManager.OnAudio
                 public void onPrepared(final MediaPlayer mediaPlayer) {
 
                     mediaPlayer.start();
+                    Constants.audioFocus = position;
                     Constants.arrayList.get(position).setBuffer(false);
                     if (Constants.isRunning) {
                         NewMediaPlayer.changePrepare();
@@ -465,13 +466,13 @@ public class NotificationService extends Service implements AudioManager.OnAudio
 
                     if (Constants.isBatMode) {
 
-                        Constants.pos = position + 1;
-                        if (Constants.pos >= 0 && Constants.pos <= Constants.arrayList.size() - 1) {
-                            play(Constants.pos);
+                        Constants.position = position + 1;
+                        if (Constants.position >= 0 && Constants.position <= Constants.arrayList.size() - 1) {
+                            play(Constants.position);
                         } else {
 
-                            Constants.pos = 0;
-                            play(Constants.pos);
+                            Constants.position = 0;
+                            play(Constants.position);
                         }
 
                     } else {
@@ -497,12 +498,12 @@ public class NotificationService extends Service implements AudioManager.OnAudio
 
 
         try {
-            Bitmap bitmap = BitmapFactory.decodeFile(Constants.arrayList.get(Constants.pos).getProfileUrl());
+            Bitmap bitmap = BitmapFactory.decodeFile(Constants.arrayList.get(Constants.position).getProfileUrl());
             Bitmap emptyBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
 
             if (!bitmap.sameAs(emptyBitmap)) {
-                NewMediaPlayer.civ_drawerSongImage.setImageBitmap(BitmapFactory.decodeFile(Constants.arrayList.get(Constants.pos).getProfileUrl()));
-                NewMediaPlayer.civ_songImage.setImageBitmap(BitmapFactory.decodeFile(Constants.arrayList.get(Constants.pos).getProfileUrl()));
+                NewMediaPlayer.civ_drawerSongImage.setImageBitmap(BitmapFactory.decodeFile(Constants.arrayList.get(Constants.position).getProfileUrl()));
+                NewMediaPlayer.civ_songImage.setImageBitmap(BitmapFactory.decodeFile(Constants.arrayList.get(Constants.position).getProfileUrl()));
             } else {
                 NewMediaPlayer.civ_drawerSongImage.setImageResource(R.drawable.logo);
                 NewMediaPlayer.civ_songImage.setImageResource(R.drawable.logo);
@@ -516,10 +517,10 @@ public class NotificationService extends Service implements AudioManager.OnAudio
         if (Constants.isRunning) {
             try {
 
-                if (Constants.arrayList.get(Constants.pos).getProfileUrl().equals("") ||
-                        Constants.arrayList.get(Constants.pos).getProfileUrl().isEmpty() ||
-                        Constants.arrayList.get(Constants.pos).getProfileUrl().equals("null") ||
-                        Constants.arrayList.get(Constants.pos).getProfileUrl().equals(null)) {
+                if (Constants.arrayList.get(Constants.position).getProfileUrl().equals("") ||
+                        Constants.arrayList.get(Constants.position).getProfileUrl().isEmpty() ||
+                        Constants.arrayList.get(Constants.position).getProfileUrl().equals("null") ||
+                        Constants.arrayList.get(Constants.position).getProfileUrl().equals(null)) {
 
                     Picasso.with(service).load(R.drawable.logo).placeholder(R.drawable.logo).error(R.drawable.logo).resize(NewMediaPlayer.civ_drawerSongImage.getWidth(), NewMediaPlayer.civ_drawerSongImage.getHeight()).into(NewMediaPlayer.civ_drawerSongImage);
 
@@ -539,8 +540,9 @@ public class NotificationService extends Service implements AudioManager.OnAudio
     @Override
     public void onAudioFocusChange(int focusChange) {
 
-        Constants.callService(this,Constants.ACTION.PLAY_ACTION);
-
+        if (Constants.audioFocus == Constants.position) {
+            Constants.callService(this, Constants.ACTION.PLAY_ACTION);
+        }
     }
 
 }

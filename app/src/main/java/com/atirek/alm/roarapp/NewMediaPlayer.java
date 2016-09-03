@@ -166,12 +166,12 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             return;
         }
 
-        if (Constants.pos < 0 || Constants.pos > Constants.arrayList.size() - 1) {
-            Constants.pos = 0;
+        if (Constants.position < 0 || Constants.position > Constants.arrayList.size() - 1) {
+            Constants.position = 0;
         }
 
-        Constants.arrayList.get(Constants.pos).setPlaying(false);
-        Constants.arrayList.get(Constants.pos).setBuffer(false);
+        Constants.arrayList.get(Constants.position).setPlaying(false);
+        Constants.arrayList.get(Constants.position).setBuffer(false);
 
         switch (id) {
             case R.id.btnPlay2:
@@ -180,7 +180,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                     Constants.isPlaying = false;
                     Constants.mediaPlayer.pause();
 
-                    Constants.arrayList.get(Constants.pos).setPaused(true);
+                    Constants.arrayList.get(Constants.position).setPaused(true);
 
                     btn_play2.setImageResource(R.drawable.home_play);
                     mHandler.removeCallbacks(UpdateSongTime);
@@ -189,7 +189,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
 
                 } else {
-                    NotificationService.play(Constants.pos);
+                    NotificationService.play(Constants.position);
                 }
                 break;
 
@@ -197,22 +197,22 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             case R.id.btnBackward2:
 
                 if (id == R.id.btnForward2) {
-                    Constants.pos = Constants.pos + 1;
-                    if (Constants.pos > (Constants.arrayList.size() - 1)) {
-                        Constants.pos = 0;
+                    Constants.position = Constants.position + 1;
+                    if (Constants.position > (Constants.arrayList.size() - 1)) {
+                        Constants.position = 0;
                     }
 
                 } else if (id == R.id.btnBackward2) {
-                    Constants.pos = Constants.pos - 1;
+                    Constants.position = Constants.position - 1;
 
-                    if (Constants.pos < 0) {
-                        Constants.pos = Constants.arrayList.size() - 1;
+                    if (Constants.position < 0) {
+                        Constants.position = Constants.arrayList.size() - 1;
                     }
 
                 }
 
                 Constants.callService(this, Constants.ACTION.NOTIFY_ACTION);
-                NotificationService.play(Constants.pos);
+                NotificationService.play(Constants.position);
 
                 break;
             default:
@@ -289,7 +289,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                     TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining),
                     TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining)
                             - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
-            songsAdapter.updateView(Constants.pos);
+            songsAdapter.updateView(Constants.position);
             Constants.callService(context, Constants.ACTION.NOTIFY_ACTION);
 
             mHandler.postDelayed(this, 100);
@@ -406,7 +406,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
             //---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-            if (Constants.pos == i && songRow.isPlaying() && Constants.arrayList.get(Constants.pos) == songRow) {
+            if (Constants.position == i && songRow.isPlaying() && Constants.arrayList.get(Constants.position) == songRow) {
 
                 holder.imageButtonPlay.setImageResource(R.drawable.home_pause);
                 btn_play2.setImageResource(R.drawable.home_pause);
@@ -439,7 +439,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                 holder.imageButtonPlay.setImageResource(R.drawable.home_play);
                 holder.imageButtonPlay.setEnabled(true);
 
-                if (!songRow.isPlaying() && songRow.isPaused() && i == Constants.pos) {
+                if (!songRow.isPlaying() && songRow.isPaused() && i == Constants.position) {
                     btn_play2.setImageResource(R.drawable.home_play);
                     holder.songCurrentDuration.setText(String.format("%02d:%02d",
                             TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining),
@@ -473,11 +473,11 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                 @Override
                 public void onClick(View view) {
 
-                    if (i == Constants.pos && Constants.arrayList.get(Constants.pos) == songRow) {
+                    if (i == Constants.position && Constants.arrayList.get(Constants.position) == songRow) {
 
-                        if (Constants.arrayList.get(Constants.pos).isPaused() || !Constants.arrayList.get(Constants.pos).isPlaying()) {
+                        if (Constants.arrayList.get(Constants.position).isPaused() || !Constants.arrayList.get(Constants.position).isPlaying()) {
 
-                            NotificationService.play(Constants.pos);
+                            NotificationService.play(Constants.position);
 
                         } else {
 
@@ -487,9 +487,9 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
                             mHandler.removeCallbacks(UpdateSongTime);
 
-                            Constants.arrayList.get(Constants.pos).setPaused(true);
-                            Constants.arrayList.get(Constants.pos).setBuffer(false);
-                            Constants.arrayList.get(Constants.pos).setPlaying(false);
+                            Constants.arrayList.get(Constants.position).setPaused(true);
+                            Constants.arrayList.get(Constants.position).setBuffer(false);
+                            Constants.arrayList.get(Constants.position).setPlaying(false);
 
 
                             notifyDataSetChanged();
@@ -499,16 +499,16 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
                     } else {
 
-                        if (Constants.pos != -1) {
+                        if (Constants.position != -1) {
                             Constants.isPlaying = false;
-                            Constants.arrayList.get(Constants.pos).setPaused(false);
-                            Constants.arrayList.get(Constants.pos).setPlaying(false);
-                            Constants.arrayList.get(Constants.pos).setBuffer(false);
+                            Constants.arrayList.get(Constants.position).setPaused(false);
+                            Constants.arrayList.get(Constants.position).setPlaying(false);
+                            Constants.arrayList.get(Constants.position).setBuffer(false);
                             notifyDataSetChanged();
                         }
 
-                        Constants.pos = i;
-                        NotificationService.play(Constants.pos);
+                        Constants.position = i;
+                        NotificationService.play(Constants.position);
                         Constants.callService(context, Constants.ACTION.NOTIFY_ACTION);
 
                     }
@@ -539,21 +539,21 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         super.onResume();
 
         Constants.isRunning = true;
-        if (Constants.pos != -1 && Constants.arrayList.get(Constants.pos).isPlaying() && !Constants.arrayList.get(Constants.pos).isPaused()) {
-            linearLayout_back.setBackgroundColor(Color.parseColor(Constants.arrayList.get(Constants.pos).getColorCode()));
+        if (Constants.position != -1 && Constants.arrayList.get(Constants.position).isPlaying() && !Constants.arrayList.get(Constants.position).isPaused()) {
+            linearLayout_back.setBackgroundColor(Color.parseColor(Constants.arrayList.get(Constants.position).getColorCode()));
             btn_play2.setImageResource(R.drawable.home_pause);
-            tv_songName.setText(Constants.arrayList.get(Constants.pos).getSongsName());
-            tv_songCategory.setText(Constants.arrayList.get(Constants.pos).getSongCategory());
-            tv_userName.setText(Constants.arrayList.get(Constants.pos).getArtistName());
+            tv_songName.setText(Constants.arrayList.get(Constants.position).getSongsName());
+            tv_songCategory.setText(Constants.arrayList.get(Constants.position).getSongCategory());
+            tv_userName.setText(Constants.arrayList.get(Constants.position).getArtistName());
 
             finalTime = Constants.mediaPlayer.getDuration();
 
-        } else if (Constants.pos != -1 && !Constants.arrayList.get(Constants.pos).isPlaying() && Constants.arrayList.get(Constants.pos).isPaused()) {
-            linearLayout_back.setBackgroundColor(Color.parseColor(Constants.arrayList.get(Constants.pos).getColorCode()));
+        } else if (Constants.position != -1 && !Constants.arrayList.get(Constants.position).isPlaying() && Constants.arrayList.get(Constants.position).isPaused()) {
+            linearLayout_back.setBackgroundColor(Color.parseColor(Constants.arrayList.get(Constants.position).getColorCode()));
             btn_play2.setImageResource(R.drawable.home_play);
-            tv_songName.setText(Constants.arrayList.get(Constants.pos).getSongsName());
-            tv_songCategory.setText(Constants.arrayList.get(Constants.pos).getSongCategory());
-            tv_userName.setText(Constants.arrayList.get(Constants.pos).getArtistName());
+            tv_songName.setText(Constants.arrayList.get(Constants.position).getSongsName());
+            tv_songCategory.setText(Constants.arrayList.get(Constants.position).getSongCategory());
+            tv_userName.setText(Constants.arrayList.get(Constants.position).getArtistName());
 
             finalTime = Constants.mediaPlayer.getDuration();
             songProgress();

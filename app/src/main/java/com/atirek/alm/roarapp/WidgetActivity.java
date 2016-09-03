@@ -61,7 +61,7 @@ public class WidgetActivity extends AppWidgetProvider {
 
 
         try {
-            Bitmap bitmap = BitmapFactory.decodeFile(Constants.arrayList.get(Constants.pos).getProfileUrl());
+            Bitmap bitmap = BitmapFactory.decodeFile(Constants.arrayList.get(Constants.position).getProfileUrl());
             Bitmap emptyBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
 
             if (!bitmap.sameAs(emptyBitmap)) {
@@ -75,20 +75,20 @@ public class WidgetActivity extends AppWidgetProvider {
 
 
 /*
-        if (Constants.arrayList.get(Constants.pos).getProfileUrl().equals("") ||
-                Constants.arrayList.get(Constants.pos).getProfileUrl().isEmpty() ||
-                Constants.arrayList.get(Constants.pos).getProfileUrl().equals("null") ||
-                Constants.arrayList.get(Constants.pos).getProfileUrl().equals(null)) {
+        if (Constants.arrayList.get(Constants.position).getProfileUrl().equals("") ||
+                Constants.arrayList.get(Constants.position).getProfileUrl().isEmpty() ||
+                Constants.arrayList.get(Constants.position).getProfileUrl().equals("null") ||
+                Constants.arrayList.get(Constants.position).getProfileUrl().equals(null)) {
 
             remoteViews.setImageViewResource(R.id.civ_user_profileWidget, R.drawable.logo);
 
         } else {
-            loadBitmap(Constants.arrayList.get(Constants.pos).getProfileUrl(), context);
+            loadBitmap(Constants.arrayList.get(Constants.position).getProfileUrl(), context);
         }
 */
 
         if(!Constants.arrayList.isEmpty()) {
-            if (Constants.arrayList.get(Constants.pos).isBuffer() || Constants.arrayList.get(Constants.pos).isPlaying()) {
+            if (Constants.arrayList.get(Constants.position).isBuffer() || Constants.arrayList.get(Constants.position).isPlaying()) {
                 remoteViews.setImageViewResource(R.id.btnPlayWidget, R.drawable.home_pause);
             } else {
                 remoteViews.setImageViewResource(R.id.btnPlayWidget, R.drawable.home_play);
@@ -98,11 +98,11 @@ public class WidgetActivity extends AppWidgetProvider {
         }
 
         if(!Constants.arrayList.isEmpty()) {
-            remoteViews.setTextViewText(R.id.tv_userNameWidget, Constants.arrayList.get(Constants.pos).getArtistName());
+            remoteViews.setTextViewText(R.id.tv_userNameWidget, Constants.arrayList.get(Constants.position).getArtistName());
 
-            remoteViews.setTextViewText(R.id.tv_voiceTitleWidget, Constants.arrayList.get(Constants.pos).getSongsName());
+            remoteViews.setTextViewText(R.id.tv_voiceTitleWidget, Constants.arrayList.get(Constants.position).getSongsName());
 
-            remoteViews.setTextViewText(R.id.tv_categoryNameWidget, Constants.arrayList.get(Constants.pos).getSongCategory());
+            remoteViews.setTextViewText(R.id.tv_categoryNameWidget, Constants.arrayList.get(Constants.position).getSongCategory());
         }
 
         //
