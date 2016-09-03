@@ -128,10 +128,10 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         btn_close_drawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Constants.isCarMode) {
+                if (Constants.isBatMode) {
                     stopService();
                     mySlidingDrawer.close();
-                    Constants.isCarMode = false;
+                    Constants.isBatMode = false;
                 }
             }
         });
@@ -140,13 +140,14 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             @Override
             public void onClick(View view) {
 
-                if (Constants.isCarMode) {
+                if (Constants.isBatMode) {
                     stopService();
                     mySlidingDrawer.close();
-                    Constants.isCarMode = false;
+                    Constants.isBatMode = false;
                 } else {
                     mySlidingDrawer.open();
-                    Constants.isCarMode = true;
+                    playService();
+                    Constants.isBatMode = true;
                 }
 
             }
@@ -203,7 +204,6 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                 if (Constants.isPlaying) {
 
                     Constants.isPlaying = false;
-                    Constants.isClicked = true;
                     Constants.mediaPlayer.pause();
 
                     Constants.arrayList.get(Constants.pos).setPaused(true);
@@ -215,7 +215,8 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
 
                 } else {
-                    NotificationService.play(Constants.pos, true);
+                    //NotificationService.play(Constants.pos, true);
+                    NotificationService.play(Constants.pos);
                 }
                 break;
 
@@ -238,7 +239,8 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                 }
 
                 notifyService();
-                NotificationService.play(Constants.pos, true);
+                //NotificationService.play(Constants.pos, true);
+                NotificationService.play(Constants.pos);
 
                 break;
             default:
@@ -286,13 +288,13 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
     public void onAudioFocusChange(int focusChange) {
         if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
             // Pause
-            playService();
+            //playService();
         } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
             // Resume
-            playService();
+            //playService();
         } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
             // Stop or pause depending on your need
-            playService();
+            //playService();
             //stopService();
         }
     }
@@ -511,12 +513,12 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
                         if (Constants.arrayList.get(Constants.pos).isPaused() || !Constants.arrayList.get(Constants.pos).isPlaying()) {
 
-                            NotificationService.play(Constants.pos, false);
+                            //NotificationService.play(Constants.pos, false);
+                            NotificationService.play(Constants.pos);
 
                         } else {
 
                             Constants.isPlaying = false;
-                            Constants.isClicked = true;
 
                             Constants.mediaPlayer.pause();
 
@@ -536,7 +538,6 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
                         if (Constants.pos != -1) {
                             Constants.isPlaying = false;
-                            Constants.isClicked = false;
                             Constants.arrayList.get(Constants.pos).setPaused(false);
                             Constants.arrayList.get(Constants.pos).setPlaying(false);
                             Constants.arrayList.get(Constants.pos).setBuffer(false);
@@ -544,7 +545,8 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                         }
 
                         Constants.pos = i;
-                        NotificationService.play(Constants.pos, false);
+                        //NotificationService.play(Constants.pos, false);
+                        NotificationService.play(Constants.pos);
                         notifyService();
 
                     }
@@ -560,10 +562,10 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
     @Override
     public void onBackPressed() {
 
-        if (Constants.isCarMode) {
+        if (Constants.isBatMode) {
             stopService();
             mySlidingDrawer.close();
-            Constants.isCarMode = false;
+            Constants.isBatMode = false;
         } else {
             finish();
         }
@@ -583,11 +585,8 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             tv_userName.setText(Constants.arrayList.get(Constants.pos).getArtistName());
 
             finalTime = Constants.mediaPlayer.getDuration();
-            songProgress();
-            mHandler.post(UpdateSongTime);
 
-
-        } else if (Constants.pos != -1 && Constants.arrayList.get(Constants.pos).isPlaying() && Constants.arrayList.get(Constants.pos).isPaused()) {
+        } else if (Constants.pos != -1 && !Constants.arrayList.get(Constants.pos).isPlaying() && Constants.arrayList.get(Constants.pos).isPaused()) {
             linearLayout_back.setBackgroundColor(Color.parseColor(Constants.arrayList.get(Constants.pos).getColorCode()));
             btn_play2.setImageResource(R.drawable.home_play);
             tv_songName.setText(Constants.arrayList.get(Constants.pos).getSongsName());
@@ -596,8 +595,10 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
             finalTime = Constants.mediaPlayer.getDuration();
             songProgress();
-            mHandler.post(UpdateSongTime);
+        }
 
+        if(Constants.isBatMode){
+            mySlidingDrawer.open();
         }
 
         songsAdapter.notifyDataSetChanged();
@@ -651,7 +652,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                     String songDuration = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION));
                     String userName = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
                     String songCategory = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
-                    String colorCode = "#2473aa";
+                    String colorCode = "#000000";
 
                     SongRow songRow = new SongRow(songsUrl, songsName, profileUrl, songDuration, userName, songCategory, colorCode, false, false, false);
                     Constants.arrayList.add(songRow);

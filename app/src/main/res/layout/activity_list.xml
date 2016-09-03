@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/hevoice">
+    android:background="@color/black">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +15,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/hevoice">
+            android:background="@color/black">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -26,8 +27,10 @@
                     android:id="@+id/civ_songImage"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ph_user" />
+                    android:background="@color/black"
+                    android:src="@drawable/logo"
+                    app:civ_border_color="@color/white"
+                    app:civ_border_width="2dp" />
 
                 <TextView
                     android:id="@+id/tvTitle"
@@ -36,18 +39,20 @@
                     android:layout_centerVertical="true"
                     android:layout_margin="15dp"
                     android:layout_weight="1"
-                    android:text="RoarApp"
-                    android:textColor="#fff"
+                    android:text="@string/app_name"
+                    android:textColor="@color/white"
                     android:textSize="20dp"
                     android:textStyle="bold|italic" />
 
                 <ImageView
                     android:id="@+id/iv_OpenDrawer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_marginRight="10dp"
+                    android:paddingTop="2.5dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/home_car" />
+                    android:src="@drawable/bat"
+                    android:tint="@color/white" />
 
 
             </LinearLayout>
@@ -64,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:choiceMode="singleChoice"
-            android:divider="#fff"
+            android:divider="@color/white"
             android:dividerHeight="0.5dp"
             android:numColumns="1"
             tools:listitem="@layout/song_listing_item" />

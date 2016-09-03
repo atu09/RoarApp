@@ -16,13 +16,13 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#FFF" />
+            android:background="@color/white" />
 
         <LinearLayout
             android:id="@+id/content_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/hevoice"
+            android:background="@color/black"
             android:orientation="vertical"
             android:padding="10dp">
 
@@ -35,9 +35,9 @@
                     android:id="@+id/civ_song_image"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:background="@android:color/transparent"
+                    android:background="@color/black"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ph_user" />
+                    android:src="@drawable/logo" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -51,8 +51,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="Username"
-                        android:textColor="#FFF"
+                        android:text=""
+                        android:textColor="@color/white"
                         android:textSize="15dp" />
 
                     <TableRow
@@ -64,8 +64,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
-                            android:text="Voice Title"
-                            android:textColor="#FFF"
+                            android:text=""
+                            android:textColor="@color/white"
                             android:textSize="12dp" />
 
                         <TextView
@@ -74,8 +74,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:singleLine="true"
-                            android:text="(00:00)"
-                            android:textColor="#FFF"
+                            android:text=""
+                            android:textColor="@color/white"
                             android:textSize="12dp" />
 
                     </TableRow>
@@ -85,8 +85,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="Category Name"
-                        android:textColor="#FFF"
+                        android:text=""
+                        android:textColor="@color/white"
                         android:textSize="10dp" />
 
                 </LinearLayout>
@@ -114,8 +114,8 @@
                         android:layout_marginTop="5dp"
                         android:padding="5dp"
                         android:singleLine="true"
-                        android:text="00:00"
-                        android:textColor="#FFF"
+                        android:text=""
+                        android:textColor="@color/white"
                         android:textSize="12dp" />
 
                 </FrameLayout>
@@ -166,7 +166,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#FFF" />
+            android:background="@color/white" />
 
     </LinearLayout>
 

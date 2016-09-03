@@ -88,10 +88,10 @@ public class NotificationService extends Service {
                 if (!bitmap.sameAs(emptyBitmap)) {
                     bigViews.setImageViewBitmap(R.id.civ_user_profile09, bitmap);
                 } else {
-                    bigViews.setImageViewResource(R.id.civ_user_profile09, R.drawable.ph_user);
+                    bigViews.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
                 }
             } catch (Exception e) {
-                bigViews.setImageViewResource(R.id.civ_user_profile09, R.drawable.ph_user);
+                bigViews.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
             }
 
 
@@ -101,7 +101,7 @@ public class NotificationService extends Service {
                     Constants.arrayList.get(Constants.pos).getProfileUrl().equals("null") ||
                     Constants.arrayList.get(Constants.pos).getProfileUrl().equals(null)) {
 
-                bigViews.setImageViewResource(R.id.civ_user_profile09, R.drawable.ph_user);
+                bigViews.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
 
             } else {
                 loadBitmap(Constants.arrayList.get(Constants.pos).getProfileUrl());
@@ -166,7 +166,7 @@ public class NotificationService extends Service {
 
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
-                bigViews.setImageViewResource(R.id.civ_user_profile09, R.drawable.ph_user);
+                bigViews.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
 
             }
 
@@ -219,10 +219,12 @@ public class NotificationService extends Service {
                 stopMedia();
 
                 if (Constants.pos >= 0 && Constants.pos <= Constants.arrayList.size() - 1) {
-                    play(Constants.pos, true);
+                    //play(Constants.pos, true);
+                    play(Constants.pos);
                 } else {
                     Constants.pos = Constants.arrayList.size() - 1;
-                    play(Constants.pos, true);
+                    //play(Constants.pos, true);
+                    play(Constants.pos);
                 }
 
                 Log.i(LOG_TAG, "Previous");
@@ -246,8 +248,6 @@ public class NotificationService extends Service {
 
                     if (Constants.isPlaying) {
 
-                        Constants.isClicked = true;
-
                         if (Constants.isRunning) {
                             NewMediaPlayer.changeComplete();
                         }
@@ -266,7 +266,6 @@ public class NotificationService extends Service {
 
                         //CODE START - For Play & Pause from NotificationBar
                         Constants.isPlaying = false;
-                        Constants.isClicked = true;
                         Constants.mediaPlayer.pause();
                         Constants.arrayList.get(Constants.pos).setPaused(true);
                         //CODE END - For Play & Pause from NotificationBar
@@ -279,7 +278,8 @@ public class NotificationService extends Service {
                         //stopForeground(true);
 
                     } else {
-                        play(Constants.pos, true);
+                        //play(Constants.pos, true);
+                        play(Constants.pos);
                     }
 
                     Log.i(LOG_TAG, "Play");
@@ -296,18 +296,18 @@ public class NotificationService extends Service {
                 stopMedia();
 
                 if (Constants.pos >= 0 && Constants.pos <= Constants.arrayList.size() - 1) {
-                    play(Constants.pos, true);
+                    //play(Constants.pos, true);
+                    play(Constants.pos);
                 } else {
                     Constants.pos = 0;
-                    play(Constants.pos, true);
+                    //play(Constants.pos, true);
+                    play(Constants.pos);
                 }
 
 
             } else if (intent.getAction().equals(Constants.ACTION.STOPFOREGROUND_ACTION)) {
 
                 Log.i(LOG_TAG, "Stopped");
-
-                Constants.isClicked = true;
 
                 if (Constants.isRunning) {
                     NewMediaPlayer.changeComplete();
@@ -371,7 +371,7 @@ public class NotificationService extends Service {
     //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-    public static void play(final int position, final boolean isNext) {
+    public static void play(final int position) {
 
         if (NewMediaPlayer.result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             return;
@@ -381,7 +381,6 @@ public class NotificationService extends Service {
         if (Constants.arrayList.get(position).isPaused) {
 
             Constants.isPlaying = true;
-            Constants.isClicked = false;
 
             Constants.mediaPlayer.start();
 
@@ -474,19 +473,20 @@ public class NotificationService extends Service {
                         Constants.isClosed = false;
                     }
 
-                    if (!Constants.isClicked && isNext) {
+                    if (Constants.isBatMode) {
 
                         Constants.pos = position + 1;
                         if (Constants.pos >= 0 && Constants.pos <= Constants.arrayList.size() - 1) {
-                            play(Constants.pos, true);
+                            //play(Constants.pos, true);
+                            play(Constants.pos);
                         } else {
 
                             Constants.pos = 0;
-                            play(Constants.pos, true);
+                            //play(Constants.pos, true);
+                            play(Constants.pos);
                         }
 
                     } else {
-                        Constants.isClicked = false;
                         Constants.isService = false;
 
                         if (Constants.isRunning) {
@@ -517,12 +517,12 @@ public class NotificationService extends Service {
                 NewMediaPlayer.civ_drawerSongImage.setImageBitmap(BitmapFactory.decodeFile(Constants.arrayList.get(Constants.pos).getProfileUrl()));
                 NewMediaPlayer.civ_songImage.setImageBitmap(BitmapFactory.decodeFile(Constants.arrayList.get(Constants.pos).getProfileUrl()));
             } else {
-                NewMediaPlayer.civ_drawerSongImage.setImageResource(R.drawable.ph_user);
-                NewMediaPlayer.civ_songImage.setImageResource(R.drawable.ph_user);
+                NewMediaPlayer.civ_drawerSongImage.setImageResource(R.drawable.logo);
+                NewMediaPlayer.civ_songImage.setImageResource(R.drawable.logo);
             }
         } catch (Exception e) {
-            NewMediaPlayer.civ_drawerSongImage.setImageResource(R.drawable.ph_user);
-            NewMediaPlayer.civ_songImage.setImageResource(R.drawable.ph_user);
+            NewMediaPlayer.civ_drawerSongImage.setImageResource(R.drawable.logo);
+            NewMediaPlayer.civ_songImage.setImageResource(R.drawable.logo);
         }
 
 /*
@@ -534,10 +534,10 @@ public class NotificationService extends Service {
                         Constants.arrayList.get(Constants.pos).getProfileUrl().equals("null") ||
                         Constants.arrayList.get(Constants.pos).getProfileUrl().equals(null)) {
 
-                    Picasso.with(service).load(R.drawable.ph_user).placeholder(R.drawable.ph_user).error(R.drawable.ph_user).resize(NewMediaPlayer.civ_drawerSongImage.getWidth(), NewMediaPlayer.civ_drawerSongImage.getHeight()).into(NewMediaPlayer.civ_drawerSongImage);
+                    Picasso.with(service).load(R.drawable.logo).placeholder(R.drawable.logo).error(R.drawable.logo).resize(NewMediaPlayer.civ_drawerSongImage.getWidth(), NewMediaPlayer.civ_drawerSongImage.getHeight()).into(NewMediaPlayer.civ_drawerSongImage);
 
                 } else {
-                    Picasso.with(service).load(Constants.arrayList.get(position).getProfileUrl()).placeholder(R.drawable.ph_user).error(R.drawable.ph_user).resize(NewMediaPlayer.civ_drawerSongImage.getWidth(), NewMediaPlayer.civ_drawerSongImage.getHeight()).into(NewMediaPlayer.civ_drawerSongImage);
+                    Picasso.with(service).load(Constants.arrayList.get(position).getProfileUrl()).placeholder(R.drawable.logo).error(R.drawable.logo).resize(NewMediaPlayer.civ_drawerSongImage.getWidth(), NewMediaPlayer.civ_drawerSongImage.getHeight()).into(NewMediaPlayer.civ_drawerSongImage);
                 }
 
             } catch (Exception e) {

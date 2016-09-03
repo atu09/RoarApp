@@ -4,7 +4,7 @@
     android:id="@+id/listing_item_back"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFF"
+    android:background="#000"
     android:gravity="center_vertical"
     android:padding="10dp">
 

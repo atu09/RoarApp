@@ -13,13 +13,12 @@ public class Constants {
     public static MediaPlayer mediaPlayer;
     public static ArrayList<SongRow> arrayList = new ArrayList<>();
     public static int pos = -1;
-    public static String baseUrl = "http://test.alive-mind.com/he-voice/uploads/";
+    //public static String baseUrl = null;
     public static boolean isRunning = false;
     public static boolean isPlaying = false;
-    public static boolean isClicked = false;
     public static boolean isClosed = false;
     public static boolean isService = false;
-    public static boolean isCarMode = false;
+    public static boolean isBatMode = false;
     public static int[] widgetIds;
     public static double timeLeft;
 

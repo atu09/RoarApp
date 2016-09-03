@@ -67,10 +67,10 @@ public class WidgetActivity extends AppWidgetProvider {
             if (!bitmap.sameAs(emptyBitmap)) {
                 remoteViews.setImageViewBitmap(R.id.civ_user_profileWidget, bitmap);
             } else {
-                remoteViews.setImageViewResource(R.id.civ_user_profileWidget, R.drawable.ph_user);
+                remoteViews.setImageViewResource(R.id.civ_user_profileWidget, R.drawable.logo);
             }
         } catch (Exception e) {
-            remoteViews.setImageViewResource(R.id.civ_user_profileWidget, R.drawable.ph_user);
+            remoteViews.setImageViewResource(R.id.civ_user_profileWidget, R.drawable.logo);
         }
 
 
@@ -80,7 +80,7 @@ public class WidgetActivity extends AppWidgetProvider {
                 Constants.arrayList.get(Constants.pos).getProfileUrl().equals("null") ||
                 Constants.arrayList.get(Constants.pos).getProfileUrl().equals(null)) {
 
-            remoteViews.setImageViewResource(R.id.civ_user_profileWidget, R.drawable.ph_user);
+            remoteViews.setImageViewResource(R.id.civ_user_profileWidget, R.drawable.logo);
 
         } else {
             loadBitmap(Constants.arrayList.get(Constants.pos).getProfileUrl(), context);
@@ -97,12 +97,13 @@ public class WidgetActivity extends AppWidgetProvider {
             remoteViews.setImageViewResource(R.id.btnPlayWidget, R.drawable.home_play);
         }
 
-        remoteViews.setTextViewText(R.id.tv_userNameWidget, Constants.arrayList.get(Constants.pos).getArtistName());
+        if(!Constants.arrayList.isEmpty()) {
+            remoteViews.setTextViewText(R.id.tv_userNameWidget, Constants.arrayList.get(Constants.pos).getArtistName());
 
-        remoteViews.setTextViewText(R.id.tv_voiceTitleWidget, Constants.arrayList.get(Constants.pos).getSongsName());
+            remoteViews.setTextViewText(R.id.tv_voiceTitleWidget, Constants.arrayList.get(Constants.pos).getSongsName());
 
-        remoteViews.setTextViewText(R.id.tv_categoryNameWidget, Constants.arrayList.get(Constants.pos).getSongCategory());
-
+            remoteViews.setTextViewText(R.id.tv_categoryNameWidget, Constants.arrayList.get(Constants.pos).getSongCategory());
+        }
 
         //
         //
@@ -134,7 +135,7 @@ public class WidgetActivity extends AppWidgetProvider {
 
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
-                remoteViews.setImageViewResource(R.id.civ_user_profileWidget, R.drawable.ph_user);
+                remoteViews.setImageViewResource(R.id.civ_user_profileWidget, R.drawable.logo);
 
             }
 
