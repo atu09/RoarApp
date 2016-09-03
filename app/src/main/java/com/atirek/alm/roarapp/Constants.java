@@ -4,6 +4,8 @@ package com.atirek.alm.roarapp;
  * Created by Alm on 7/12/2016.
  */
 
+import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 
 import java.util.ArrayList;
@@ -22,7 +24,6 @@ public class Constants {
     public static int[] widgetIds;
     public static double timeLeft;
 
-
     public interface ACTION {
         String MAIN_ACTION = "com.atirek.alm.roarapp.action.main";
         String NOTIFY_ACTION = "com.atirek.alm.roarapp.action.notify";
@@ -36,4 +37,11 @@ public class Constants {
     public interface NOTIFICATION_ID {
         int FOREGROUND_SERVICE = 101;
     }
+
+    public static void callService(Context context, String action) {
+        Intent serviceIntent = new Intent(context, NotificationService.class);
+        serviceIntent.setAction(action);
+        context.startService(serviceIntent);
+    }
+
 }

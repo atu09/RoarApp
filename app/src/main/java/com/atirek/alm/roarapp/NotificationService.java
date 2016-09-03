@@ -218,11 +218,9 @@ public class NotificationService extends Service implements AudioManager.OnAudio
                 stopMedia();
 
                 if (Constants.pos >= 0 && Constants.pos <= Constants.arrayList.size() - 1) {
-                    //play(Constants.pos, true);
                     play(Constants.pos);
                 } else {
                     Constants.pos = Constants.arrayList.size() - 1;
-                    //play(Constants.pos, true);
                     play(Constants.pos);
                 }
 
@@ -277,7 +275,6 @@ public class NotificationService extends Service implements AudioManager.OnAudio
                         //stopForeground(true);
 
                     } else {
-                        //play(Constants.pos, true);
                         play(Constants.pos);
                     }
 
@@ -295,11 +292,9 @@ public class NotificationService extends Service implements AudioManager.OnAudio
                 stopMedia();
 
                 if (Constants.pos >= 0 && Constants.pos <= Constants.arrayList.size() - 1) {
-                    //play(Constants.pos, true);
                     play(Constants.pos);
                 } else {
                     Constants.pos = 0;
-                    //play(Constants.pos, true);
                     play(Constants.pos);
                 }
 
@@ -354,7 +349,6 @@ public class NotificationService extends Service implements AudioManager.OnAudio
             }
 
         }
-
 
     }
 
@@ -473,12 +467,10 @@ public class NotificationService extends Service implements AudioManager.OnAudio
 
                         Constants.pos = position + 1;
                         if (Constants.pos >= 0 && Constants.pos <= Constants.arrayList.size() - 1) {
-                            //play(Constants.pos, true);
                             play(Constants.pos);
                         } else {
 
                             Constants.pos = 0;
-                            //play(Constants.pos, true);
                             play(Constants.pos);
                         }
 
@@ -488,7 +480,6 @@ public class NotificationService extends Service implements AudioManager.OnAudio
                         if (Constants.isRunning) {
                             NewMediaPlayer.songsAdapter.notifyDataSetChanged();
                         }
-                        //service.showNotification();
                         service.stopForeground(true);
 
                     }
@@ -548,24 +539,8 @@ public class NotificationService extends Service implements AudioManager.OnAudio
     @Override
     public void onAudioFocusChange(int focusChange) {
 
-/*
-        if (focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
-            // Pause
-        } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
-            // Resume
-        } else if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
-            // Stop or pause depending on your need
-        }
-*/
+        Constants.callService(this,Constants.ACTION.PLAY_ACTION);
 
-        playService();
-
-    }
-
-    public void playService() {
-        Intent serviceIntent = new Intent(this, NotificationService.class);
-        serviceIntent.setAction(Constants.ACTION.PLAY_ACTION);
-        startService(serviceIntent);
     }
 
 }

@@ -2,7 +2,6 @@ package com.atirek.alm.roarapp;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -128,7 +127,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             @Override
             public void onClick(View view) {
                 if (Constants.isBatMode) {
-                    stopService();
+                    Constants.callService(NewMediaPlayer.this, Constants.ACTION.STOPFOREGROUND_ACTION);
                     mySlidingDrawer.close();
                     Constants.isBatMode = false;
                 }
@@ -140,12 +139,12 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             public void onClick(View view) {
 
                 if (Constants.isBatMode) {
-                    stopService();
+                    Constants.callService(NewMediaPlayer.this, Constants.ACTION.STOPFOREGROUND_ACTION);
                     mySlidingDrawer.close();
                     Constants.isBatMode = false;
                 } else {
                     mySlidingDrawer.open();
-                    playService();
+                    Constants.callService(NewMediaPlayer.this, Constants.ACTION.PLAY_ACTION);
                     Constants.isBatMode = true;
                 }
 
@@ -157,30 +156,6 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
         requestPermission(1);
 
-    }
-
-    public void startService() {
-        Intent serviceIntent = new Intent(NewMediaPlayer.this, NotificationService.class);
-        serviceIntent.setAction(Constants.ACTION.STARTFOREGROUND_ACTION);
-        startService(serviceIntent);
-    }
-
-    public static void notifyService() {
-        Intent serviceIntent = new Intent(context, NotificationService.class);
-        serviceIntent.setAction(Constants.ACTION.NOTIFY_ACTION);
-        context.startService(serviceIntent);
-    }
-
-    public void stopService() {
-        Intent serviceIntent = new Intent(NewMediaPlayer.this, NotificationService.class);
-        serviceIntent.setAction(Constants.ACTION.STOPFOREGROUND_ACTION);
-        startService(serviceIntent);
-    }
-
-    public void playService() {
-        Intent serviceIntent = new Intent(NewMediaPlayer.this, NotificationService.class);
-        serviceIntent.setAction(Constants.ACTION.PLAY_ACTION);
-        startService(serviceIntent);
     }
 
     @Override
@@ -210,11 +185,10 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                     btn_play2.setImageResource(R.drawable.home_play);
                     mHandler.removeCallbacks(UpdateSongTime);
                     songsAdapter.notifyDataSetChanged();
-                    notifyService();
+                    Constants.callService(this, Constants.ACTION.NOTIFY_ACTION);
 
 
                 } else {
-                    //NotificationService.play(Constants.pos, true);
                     NotificationService.play(Constants.pos);
                 }
                 break;
@@ -237,8 +211,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
                 }
 
-                notifyService();
-                //NotificationService.play(Constants.pos, true);
+                Constants.callService(this, Constants.ACTION.NOTIFY_ACTION);
                 NotificationService.play(Constants.pos);
 
                 break;
@@ -317,7 +290,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                     TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining)
                             - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining))));
             songsAdapter.updateView(Constants.pos);
-            notifyService();
+            Constants.callService(context, Constants.ACTION.NOTIFY_ACTION);
 
             mHandler.postDelayed(this, 100);
         }
@@ -504,7 +477,6 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
                         if (Constants.arrayList.get(Constants.pos).isPaused() || !Constants.arrayList.get(Constants.pos).isPlaying()) {
 
-                            //NotificationService.play(Constants.pos, false);
                             NotificationService.play(Constants.pos);
 
                         } else {
@@ -521,7 +493,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
 
                             notifyDataSetChanged();
-                            notifyService();
+                            Constants.callService(context, Constants.ACTION.NOTIFY_ACTION);
 
                         }
 
@@ -536,9 +508,8 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                         }
 
                         Constants.pos = i;
-                        //NotificationService.play(Constants.pos, false);
                         NotificationService.play(Constants.pos);
-                        notifyService();
+                        Constants.callService(context, Constants.ACTION.NOTIFY_ACTION);
 
                     }
                 }
@@ -554,7 +525,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
     public void onBackPressed() {
 
         if (Constants.isBatMode) {
-            stopService();
+            Constants.callService(this, Constants.ACTION.STOPFOREGROUND_ACTION);
             mySlidingDrawer.close();
             Constants.isBatMode = false;
         } else {
@@ -651,7 +622,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
                 songsAdapter.notifyDataSetChanged();
 
-                startService();
+                Constants.callService(this, Constants.ACTION.STARTFOREGROUND_ACTION);
 
             } catch (Exception e) {
                 Toast.makeText(NewMediaPlayer.this, "Error" + e, Toast.LENGTH_SHORT).show();
