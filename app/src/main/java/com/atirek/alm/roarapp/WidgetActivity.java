@@ -97,7 +97,7 @@ public class WidgetActivity extends AppWidgetProvider {
             remoteViews.setImageViewResource(R.id.btnPlayWidget, R.drawable.home_play);
         }
 
-        remoteViews.setTextViewText(R.id.tv_userNameWidget, Constants.arrayList.get(Constants.pos).getUserName());
+        remoteViews.setTextViewText(R.id.tv_userNameWidget, Constants.arrayList.get(Constants.pos).getArtistName());
 
         remoteViews.setTextViewText(R.id.tv_voiceTitleWidget, Constants.arrayList.get(Constants.pos).getSongsName());
 

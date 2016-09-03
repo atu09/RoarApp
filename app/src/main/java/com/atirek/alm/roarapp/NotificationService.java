@@ -108,7 +108,7 @@ public class NotificationService extends Service {
             }
 */
 
-            bigViews.setTextViewText(R.id.tv_userName09, Constants.arrayList.get(Constants.pos).getUserName());
+            bigViews.setTextViewText(R.id.tv_userName09, Constants.arrayList.get(Constants.pos).getArtistName());
 
             bigViews.setTextViewText(R.id.tv_voiceTitle09, Constants.arrayList.get(Constants.pos).getSongsName());
 

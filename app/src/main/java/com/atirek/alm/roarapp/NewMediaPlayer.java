@@ -259,7 +259,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         btn_play2.setImageResource(R.drawable.home_pause);
         tv_songName.setText(Constants.arrayList.get(position).getSongsName());
         tv_songCategory.setText(Constants.arrayList.get(position).getSongCategory());
-        tv_userName.setText(Constants.arrayList.get(position).getUserName());
+        tv_userName.setText(Constants.arrayList.get(position).getArtistName());
         songsAdapter.notifyDataSetChanged();
     }
 
@@ -581,7 +581,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             btn_play2.setImageResource(R.drawable.home_pause);
             tv_songName.setText(Constants.arrayList.get(Constants.pos).getSongsName());
             tv_songCategory.setText(Constants.arrayList.get(Constants.pos).getSongCategory());
-            tv_userName.setText(Constants.arrayList.get(Constants.pos).getUserName());
+            tv_userName.setText(Constants.arrayList.get(Constants.pos).getArtistName());
 
             finalTime = Constants.mediaPlayer.getDuration();
             songProgress();
@@ -593,7 +593,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             btn_play2.setImageResource(R.drawable.home_play);
             tv_songName.setText(Constants.arrayList.get(Constants.pos).getSongsName());
             tv_songCategory.setText(Constants.arrayList.get(Constants.pos).getSongCategory());
-            tv_userName.setText(Constants.arrayList.get(Constants.pos).getUserName());
+            tv_userName.setText(Constants.arrayList.get(Constants.pos).getArtistName());
 
             finalTime = Constants.mediaPlayer.getDuration();
             songProgress();
@@ -722,19 +722,19 @@ class SongRow {
     String songsName;
     String profileUrl;
     String songDuration;
-    String userName;
+    String artistName;
     String songCategory;
     String colorCode;
     boolean isPlaying;
     boolean isBuffer;
     boolean isPaused;
 
-    public SongRow(String songsUrl, String songsName, String profileUrl, String songDuration, String userName, String songCategory, String colorCode, boolean isPlaying, boolean isBuffer, boolean isPaused) {
+    public SongRow(String songsUrl, String songsName, String profileUrl, String songDuration, String artistName, String songCategory, String colorCode, boolean isPlaying, boolean isBuffer, boolean isPaused) {
         this.songsUrl = songsUrl;
         this.songsName = songsName;
         this.profileUrl = profileUrl;
         this.songDuration = songDuration;
-        this.userName = userName;
+        this.artistName = artistName;
         this.songCategory = songCategory;
         this.colorCode = colorCode;
         this.isPlaying = isPlaying;
@@ -790,12 +790,12 @@ class SongRow {
         this.songDuration = songDuration;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getArtistName() {
+        return artistName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setArtistName(String artistName) {
+        this.artistName = artistName;
     }
 
     public String getSongCategory() {
