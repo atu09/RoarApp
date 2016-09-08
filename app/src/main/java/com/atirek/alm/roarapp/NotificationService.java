@@ -433,7 +433,6 @@ public class NotificationService extends Service implements AudioManager.OnAudio
                 public void onPrepared(final MediaPlayer mediaPlayer) {
 
                     mediaPlayer.start();
-                    Constants.audioFocus = position;
                     Constants.arrayList.get(position).setBuffer(false);
                     if (Constants.isRunning) {
                         NewMediaPlayer.changePrepare();
@@ -540,9 +539,6 @@ public class NotificationService extends Service implements AudioManager.OnAudio
     @Override
     public void onAudioFocusChange(int focusChange) {
 
-        if (Constants.audioFocus == Constants.position) {
-            Constants.callService(this, Constants.ACTION.PLAY_ACTION);
-        }
     }
 
 }

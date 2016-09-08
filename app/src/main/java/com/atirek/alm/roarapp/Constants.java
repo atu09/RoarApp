@@ -23,7 +23,6 @@ public class Constants {
     public static boolean isBatMode = false;
     public static int[] widgetIds;
     public static double timeLeft;
-    public static int audioFocus = -1;
 
     public interface ACTION {
         String MAIN_ACTION = "com.atirek.alm.roarapp.action.main";
