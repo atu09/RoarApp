@@ -29,15 +29,16 @@ public class NotificationService extends Service implements AudioManager.OnAudio
 
     public static Notification status;
     private final String LOG_TAG = "NotificationService";
-    public static RemoteViews bigViews;
+    public static RemoteViews remoteViews_big;
+    public static RemoteViews remoteViews_small;
     public static NotificationService service;
 
     public void showNotification() {
 
         try {
 
-            bigViews = new RemoteViews(getPackageName(), R.layout.notification_layout);
-
+            remoteViews_big = new RemoteViews(getPackageName(), R.layout.big_notification_layout);
+            remoteViews_small = new RemoteViews(getPackageName(), R.layout.notification_layout);
 
             //********************************************************************************
 
@@ -68,13 +69,23 @@ public class NotificationService extends Service implements AudioManager.OnAudio
             //********************************************************************************
 
 
-            bigViews.setOnClickPendingIntent(R.id.btnPlay09, pplayIntent);
+            remoteViews_big.setOnClickPendingIntent(R.id.btnPlay09, pplayIntent);
 
-            bigViews.setOnClickPendingIntent(R.id.btnForward09, pnextIntent);
+            remoteViews_big.setOnClickPendingIntent(R.id.btnForward09, pnextIntent);
 
-            bigViews.setOnClickPendingIntent(R.id.btnBackward09, ppreviousIntent);
+            remoteViews_big.setOnClickPendingIntent(R.id.btnBackward09, ppreviousIntent);
 
-            bigViews.setOnClickPendingIntent(R.id.btn_close_drawer09, pcloseIntent);
+            remoteViews_big.setOnClickPendingIntent(R.id.btn_close_drawer09, pcloseIntent);
+
+
+            remoteViews_small.setOnClickPendingIntent(R.id.btnPlay09, pplayIntent);
+
+            remoteViews_small.setOnClickPendingIntent(R.id.btnForward09, pnextIntent);
+
+            remoteViews_small.setOnClickPendingIntent(R.id.btnBackward09, ppreviousIntent);
+
+            remoteViews_small.setOnClickPendingIntent(R.id.btn_close_drawer09, pcloseIntent);
+
 
 
             //********************************************************************************
@@ -85,12 +96,15 @@ public class NotificationService extends Service implements AudioManager.OnAudio
                 Bitmap emptyBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
 
                 if (!bitmap.sameAs(emptyBitmap)) {
-                    bigViews.setImageViewBitmap(R.id.civ_user_profile09, bitmap);
+                    remoteViews_big.setImageViewBitmap(R.id.civ_user_profile09, bitmap);
+                    remoteViews_small.setImageViewBitmap(R.id.civ_user_profile09, bitmap);
                 } else {
-                    bigViews.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
+                    remoteViews_big.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
+                    remoteViews_small.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
                 }
             } catch (Exception e) {
-                bigViews.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
+                remoteViews_big.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
+                remoteViews_small.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
             }
 
 
@@ -100,36 +114,53 @@ public class NotificationService extends Service implements AudioManager.OnAudio
                     Constants.arrayList.get(Constants.position).getProfileUrl().equals("null") ||
                     Constants.arrayList.get(Constants.position).getProfileUrl().equals(null)) {
 
-                bigViews.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
+                remoteViews_big.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
 
             } else {
                 loadBitmap(Constants.arrayList.get(Constants.position).getProfileUrl());
             }
 */
 
-            bigViews.setTextViewText(R.id.tv_userName09, Constants.arrayList.get(Constants.position).getArtistName());
+            remoteViews_big.setTextViewText(R.id.tv_userName09, Constants.arrayList.get(Constants.position).getArtistName());
 
-            bigViews.setTextViewText(R.id.tv_voiceTitle09, Constants.arrayList.get(Constants.position).getSongsName());
+            remoteViews_big.setTextViewText(R.id.tv_voiceTitle09, Constants.arrayList.get(Constants.position).getSongsName());
 
-            bigViews.setTextViewText(R.id.tv_categoryName09, Constants.arrayList.get(Constants.position).getSongCategory());
+            remoteViews_big.setTextViewText(R.id.tv_categoryName09, Constants.arrayList.get(Constants.position).getSongCategory());
+
+
+            remoteViews_small.setTextViewText(R.id.tv_userName09, Constants.arrayList.get(Constants.position).getArtistName());
+
+            remoteViews_small.setTextViewText(R.id.tv_voiceTitle09, Constants.arrayList.get(Constants.position).getSongsName());
+
+            remoteViews_small.setTextViewText(R.id.tv_categoryName09, Constants.arrayList.get(Constants.position).getSongCategory());
 
 
             //********************************************************************************
 
 
-            bigViews.setTextViewText(R.id.tv_currentDuration09, String.format("%02d:%02d",
+            remoteViews_big.setTextViewText(R.id.tv_currentDuration09, String.format("%02d:%02d",
+                    TimeUnit.MILLISECONDS.toMinutes((long) Constants.timeLeft),
+                    TimeUnit.MILLISECONDS.toSeconds((long) Constants.timeLeft)
+                            - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) Constants.timeLeft))));
+
+            remoteViews_small.setTextViewText(R.id.tv_currentDuration09, String.format("%02d:%02d",
                     TimeUnit.MILLISECONDS.toMinutes((long) Constants.timeLeft),
                     TimeUnit.MILLISECONDS.toSeconds((long) Constants.timeLeft)
                             - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) Constants.timeLeft))));
 
 
             if (Constants.arrayList.get(Constants.position).isBuffer() || Constants.arrayList.get(Constants.position).isPlaying()) {
-                bigViews.setImageViewResource(R.id.btnPlay09, R.drawable.home_pause);
-                status = new Notification.Builder(this).setSmallIcon(android.R.drawable.ic_media_pause).setContent(bigViews).build();
+                remoteViews_big.setImageViewResource(R.id.btnPlay09, R.drawable.home_pause);
+                remoteViews_small.setImageViewResource(R.id.btnPlay09, R.drawable.home_pause);
+                status = new Notification.Builder(this).setSmallIcon(android.R.drawable.ic_media_pause).build();
             } else {
-                bigViews.setImageViewResource(R.id.btnPlay09, R.drawable.home_play);
-                status = new Notification.Builder(this).setSmallIcon(android.R.drawable.ic_media_play).setContent(bigViews).build();
+                remoteViews_big.setImageViewResource(R.id.btnPlay09, R.drawable.home_play);
+                remoteViews_small.setImageViewResource(R.id.btnPlay09, R.drawable.home_play);
+                status = new Notification.Builder(this).setSmallIcon(android.R.drawable.ic_media_play).build();
             }
+
+            status.bigContentView = remoteViews_big;
+            status.contentView = remoteViews_small;
 
             if (!Constants.isRunning) {
                 status.contentIntent = pendingIntent;
@@ -159,13 +190,14 @@ public class NotificationService extends Service implements AudioManager.OnAudio
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 
-                bigViews.setImageViewBitmap(R.id.civ_user_profile09, bitmap);
+                remoteViews_big.setImageViewBitmap(R.id.civ_user_profile09, bitmap);
+                remoteViews_small.setImageViewBitmap(R.id.civ_user_profile09, bitmap);
 
             }
 
             @Override
             public void onBitmapFailed(Drawable errorDrawable) {
-                bigViews.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
+                remoteViews_small.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
 
             }
 

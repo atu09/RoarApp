@@ -133,6 +133,8 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         btn_next2.setOnClickListener(this);
         btn_prev2.setOnClickListener(this);
 
+        circularProgressBar2.setProgress(0);
+
         btn_close_drawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -250,7 +252,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         tv_userName.setText(Constants.arrayList.get(position).getArtistName());
         songsAdapter.notifyDataSetChanged();
 
-        if(Constants.arrayList.get(Constants.position).isBuffer()){
+        if (Constants.arrayList.get(Constants.position).isBuffer()) {
             circularProgress2.setVisibility(View.VISIBLE);
             circularProgress2.setIndeterminate(true);
             startAnimationThreadStuff(0, circularProgress2);
@@ -282,6 +284,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
     public static void changeComplete() {
 
         mHandler.removeCallbacks(UpdateSongTime);
+        circularProgressBar2.setProgress(0);
         btn_play2.setImageResource(R.drawable.home_play);
         handle_play.setImageResource(android.R.drawable.ic_media_play);
         btn_play2.setEnabled(true);
@@ -310,17 +313,17 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                 TimeUnit.MILLISECONDS.toSeconds((long) finalTime)
                         - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) finalTime))));
 
-        circularProgressBar2.setMax((int) finalTime);
-
 
     }
 
     public static Runnable UpdateSongTime = new Runnable() {
         public void run() {
+
             startTime = Constants.mediaPlayer.getCurrentPosition();
             timeRemaining = finalTime - startTime;
             Constants.timeLeft = timeRemaining;
 
+            circularProgressBar2.setMax((int) finalTime);
             circularProgressBar2.setProgress((int) startTime);
 
             tv_currentVoiceProgress.setText(String.format("%02d:%02d",
