@@ -16,10 +16,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -51,7 +53,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
     String[] projections = {MediaStore.Audio.Media._ID, MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.DISPLAY_NAME,
             MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DURATION, MediaStore.Audio.Media.ALBUM, MediaStore.Audio.Media.DATA, MediaStore.Audio.Media.ALBUM_ID};
     String order = MediaStore.Audio.Media.TITLE + " ASC";
-    String[] selectionArgs = {"%mp3"};
+    String[] selectionArgs = {"%"};
     String selection = MediaStore.Audio.Media.DATA + " like ?";
 
     public static ImageButton btn_play2, btn_next2, btn_prev2;
@@ -100,7 +102,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         listView = (MyListView) findViewById(R.id.listView_songs);
-        mySlidingDrawer = (MySlidingDrawer) findViewById(R.id.slidingDrawerNew);
+        mySlidingDrawer = (MySlidingDrawer) findViewById(R.id.slidingDrawer);
 
         iv_open_drawer = (ImageView) findViewById(R.id.iv_OpenDrawer);
 
@@ -127,9 +129,9 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             @Override
             public void onClick(View view) {
                 if (Constants.isBatMode) {
-                    Constants.callService(NewMediaPlayer.this, Constants.ACTION.STOPFOREGROUND_ACTION);
+                    //Constants.callService(NewMediaPlayer.this, Constants.ACTION.STOPFOREGROUND_ACTION);
                     mySlidingDrawer.close();
-                    Constants.isBatMode = false;
+                    Constants.setIsBatMode(false);
                 }
             }
         });
@@ -139,13 +141,13 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             public void onClick(View view) {
 
                 if (Constants.isBatMode) {
-                    Constants.callService(NewMediaPlayer.this, Constants.ACTION.STOPFOREGROUND_ACTION);
+                    //Constants.callService(NewMediaPlayer.this, Constants.ACTION.STOPFOREGROUND_ACTION);
                     mySlidingDrawer.close();
-                    Constants.isBatMode = false;
+                    Constants.setIsBatMode(false);
                 } else {
                     mySlidingDrawer.open();
-                    Constants.callService(NewMediaPlayer.this, Constants.ACTION.PLAY_ACTION);
-                    Constants.isBatMode = true;
+                    //Constants.callService(NewMediaPlayer.this, Constants.ACTION.PLAY_ACTION);
+                    Constants.setIsBatMode(true);
                 }
 
             }
@@ -524,6 +526,12 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
     @Override
     public void onBackPressed() {
 
+        if (mySlidingDrawer.isOpened()) {
+            mySlidingDrawer.close();
+        } else {
+            finish();
+        }
+/*
         if (Constants.isBatMode) {
             Constants.callService(this, Constants.ACTION.STOPFOREGROUND_ACTION);
             mySlidingDrawer.close();
@@ -531,6 +539,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         } else {
             finish();
         }
+*/
 
     }
 
@@ -560,7 +569,10 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         }
 
         if (Constants.isBatMode) {
+            Constants.setIsBatMode(true);
             mySlidingDrawer.open();
+        } else {
+            Constants.setIsBatMode(false);
         }
 
         songsAdapter.notifyDataSetChanged();

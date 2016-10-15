@@ -17,10 +17,6 @@ public class MySlidingDrawer extends SlidingDrawer {
         super(context, attrs, defStyleAttr);
     }
 
-    public MySlidingDrawer(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
         return false;

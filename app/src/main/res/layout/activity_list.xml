@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="35dp"
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
@@ -49,10 +50,9 @@
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_marginRight="10dp"
-                    android:paddingTop="2.5dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/bat"
-                    android:tint="@color/white" />
+                    android:paddingTop="2.5dp"
+                    android:src="@drawable/bat" />
 
 
             </LinearLayout>
@@ -77,9 +77,9 @@
     </LinearLayout>
 
     <include
-        layout="@layout/new_sliding_drawer"
+        layout="@layout/sliding_drawer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top" />
+        android:layout_height="162.5dp"
+        android:layout_gravity="bottom" />
 
 </FrameLayout>

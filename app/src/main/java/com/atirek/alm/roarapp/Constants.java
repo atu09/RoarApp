@@ -7,6 +7,7 @@ package com.atirek.alm.roarapp;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.support.v4.content.ContextCompat;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,15 @@ public class Constants {
     public static boolean isBatMode = false;
     public static int[] widgetIds;
     public static double timeLeft;
+
+    public static void setIsBatMode(boolean isBatMode) {
+        Constants.isBatMode = isBatMode;
+        if (isBatMode) {
+            NewMediaPlayer.iv_open_drawer.setColorFilter(ContextCompat.getColor(NewMediaPlayer.context, R.color.white));
+        } else {
+            NewMediaPlayer.iv_open_drawer.clearColorFilter();
+        }
+    }
 
     public interface ACTION {
         String MAIN_ACTION = "com.atirek.alm.roarapp.action.main";

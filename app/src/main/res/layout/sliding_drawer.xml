@@ -1,0 +1,20 @@
+<com.atirek.alm.roarapp.CustomClasses.MySlidingDrawer xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/slidingDrawer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:allowSingleTap="true"
+    android:content="@+id/content"
+    android:handle="@+id/handle">
+
+    <include
+        android:id="@+id/handle"
+        layout="@layout/handle_layout" />
+
+    <include
+        android:id="@+id/content"
+        layout="@layout/new_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" />
+
+</com.atirek.alm.roarapp.CustomClasses.MySlidingDrawer>
