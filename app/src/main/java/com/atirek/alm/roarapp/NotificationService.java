@@ -5,9 +5,11 @@ package com.atirek.alm.roarapp;
  */
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.appwidget.AppWidgetManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,6 +34,7 @@ public class NotificationService extends Service implements AudioManager.OnAudio
     public static RemoteViews remoteViews_big;
     public static RemoteViews remoteViews_small;
     public static NotificationService service;
+    public static NotificationManager notificationManager;
 
     public void showNotification() {
 
@@ -39,6 +42,7 @@ public class NotificationService extends Service implements AudioManager.OnAudio
 
             remoteViews_big = new RemoteViews(getPackageName(), R.layout.big_notification_layout);
             remoteViews_small = new RemoteViews(getPackageName(), R.layout.notification_layout);
+            notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
             //********************************************************************************
 
@@ -162,7 +166,7 @@ public class NotificationService extends Service implements AudioManager.OnAudio
             status.bigContentView = remoteViews_big;
             status.contentView = remoteViews_small;
 
-            if (!Constants.isRunning) {
+            if (Constants.isRunning) {
                 status.contentIntent = pendingIntent;
             }
 
@@ -181,6 +185,48 @@ public class NotificationService extends Service implements AudioManager.OnAudio
 
     }
 
+    public void updateNotification() {
+
+        try {
+            Bitmap bitmap = BitmapFactory.decodeFile(Constants.arrayList.get(Constants.position).getProfileUrl());
+            Bitmap emptyBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
+
+            if (!bitmap.sameAs(emptyBitmap)) {
+                remoteViews_big.setImageViewBitmap(R.id.civ_user_profile09, bitmap);
+                remoteViews_small.setImageViewBitmap(R.id.civ_user_profile09, bitmap);
+            } else {
+                remoteViews_big.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
+                remoteViews_small.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
+            }
+        } catch (Exception e) {
+            remoteViews_big.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
+            remoteViews_small.setImageViewResource(R.id.civ_user_profile09, R.drawable.logo);
+        }
+
+        remoteViews_big.setTextViewText(R.id.tv_currentDuration09, String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes((long) Constants.timeLeft),
+                TimeUnit.MILLISECONDS.toSeconds((long) Constants.timeLeft)
+                        - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) Constants.timeLeft))));
+
+        remoteViews_small.setTextViewText(R.id.tv_currentDuration09, String.format("%02d:%02d",
+                TimeUnit.MILLISECONDS.toMinutes((long) Constants.timeLeft),
+                TimeUnit.MILLISECONDS.toSeconds((long) Constants.timeLeft)
+                        - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) Constants.timeLeft))));
+
+
+        if (Constants.arrayList.get(Constants.position).isBuffer() || Constants.arrayList.get(Constants.position).isPlaying()) {
+            remoteViews_big.setImageViewResource(R.id.btnPlay09, R.drawable.home_pause);
+            remoteViews_small.setImageViewResource(R.id.btnPlay09, R.drawable.home_pause);
+
+        } else {
+            remoteViews_big.setImageViewResource(R.id.btnPlay09, R.drawable.home_play);
+            remoteViews_small.setImageViewResource(R.id.btnPlay09, R.drawable.home_play);
+        }
+
+        notificationManager.notify(Constants.NOTIFICATION_ID.FOREGROUND_SERVICE, status);
+
+    }
+    
     private static Target loadtarget;
 
     public void loadBitmap(String url) {
