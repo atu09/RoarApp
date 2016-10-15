@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
@@ -59,7 +60,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:singleLine="true"
-                            android:text=""
+                            android:text="Currently No Song Playing"
                             android:textColor="@color/white"
                             android:textSize="12dp" />
 
@@ -71,7 +72,8 @@
                             android:singleLine="true"
                             android:text=""
                             android:textColor="@color/white"
-                            android:textSize="12dp" />
+                            android:textSize="12dp"
+                            android:visibility="gone" />
 
                     </TableRow>
 
@@ -98,11 +100,12 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="right|top"
                         android:background="@null"
+                        android:clickable="false"
                         android:focusable="true"
-                        android:src="@drawable/drive_close" />
+                        android:src="@drawable/drive_close"
+                        android:visibility="invisible" />
 
                     <TextView
-                        android:id="@+id/tv_currentVoiceProgress"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|right"
@@ -111,7 +114,8 @@
                         android:singleLine="true"
                         android:text=""
                         android:textColor="@color/white"
-                        android:textSize="12dp" />
+                        android:textSize="12dp"
+                        android:visibility="invisible" />
 
                 </FrameLayout>
             </LinearLayout>
@@ -132,15 +136,46 @@
                     android:src="@android:drawable/ic_media_previous" />
 
                 <!-- Play Button -->
-                <ImageButton
-                    android:id="@+id/btnPlay2"
+
+
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:background="@null"
-                    android:src="@drawable/home_play" />
+                    android:layout_marginRight="30dp">
+
+                    <ImageButton
+                        android:id="@+id/btnPlay2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@null"
+                        android:clickable="true"
+                        android:src="@drawable/home_play" />
+
+                    <com.github.rahatarmanahmed.cpv.CircularProgressView
+                        android:id="@+id/circularProgress2"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:visibility="visible"
+                        app:cpv_animAutostart="false"
+                        app:cpv_color="#a9a9a9"
+                        app:cpv_indeterminate="true"
+                        app:cpv_thickness="4dp" />
+
+                    <ProgressBar
+                        android:id="@+id/circularProgressBar2"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:indeterminate="false"
+                        android:progress="100"
+                        android:progressDrawable="@drawable/progress_bar" />
+
+                </FrameLayout>
 
                 <!-- Next Button -->
                 <!-- Forward Button -->

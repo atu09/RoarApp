@@ -79,7 +79,7 @@
     <include
         layout="@layout/sliding_drawer"
         android:layout_width="match_parent"
-        android:layout_height="162.5dp"
+        android:layout_height="175dp"
         android:layout_gravity="bottom" />
 
 </FrameLayout>

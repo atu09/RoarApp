@@ -270,6 +270,7 @@ public class NotificationService extends Service implements AudioManager.OnAudio
                         if (Constants.isRunning) {
                             NewMediaPlayer.songsAdapter.notifyDataSetChanged();
                             NewMediaPlayer.btn_play2.setImageResource(R.drawable.home_play);
+                            NewMediaPlayer.handle_play.setImageResource(android.R.drawable.ic_media_play);
                         }
                         showNotification();
                         //stopForeground(true);
@@ -380,6 +381,7 @@ public class NotificationService extends Service implements AudioManager.OnAudio
 
             if (Constants.isRunning) {
                 NewMediaPlayer.btn_play2.setImageResource(R.drawable.home_pause);
+                NewMediaPlayer.handle_play.setImageResource(android.R.drawable.ic_media_pause);
                 NewMediaPlayer.mHandler.post(NewMediaPlayer.UpdateSongTime);
                 NewMediaPlayer.songsAdapter.notifyDataSetChanged();
             }

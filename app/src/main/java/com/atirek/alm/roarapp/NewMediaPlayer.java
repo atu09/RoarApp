@@ -16,12 +16,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,14 +54,18 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
     String[] selectionArgs = {"%"};
     String selection = MediaStore.Audio.Media.DATA + " like ?";
 
-    public static ImageButton btn_play2, btn_next2, btn_prev2;
+    public static ImageButton btn_play2, btn_next2, btn_prev2, handle_play;
     public static TextView tv_songName;
+    public static TextView handle_songName;
     public static TextView tv_voiceTotalDuration;
     public static TextView tv_currentVoiceProgress;
     public static TextView tv_songCategory;
     public static TextView tv_userName;
     public static ImageButton btn_close_drawer;
     public static CircleImageView civ_drawerSongImage;
+
+    public static CircularProgressView circularProgress2;
+    public static ProgressBar circularProgressBar2;
 
     public static LinearLayout linearLayout_back;
 
@@ -79,7 +81,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
     public static ViewHolder holder;
 
-    Thread updateThread;
+    static Thread updateThread;
 
     public static Context context;
 
@@ -107,9 +109,12 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         iv_open_drawer = (ImageView) findViewById(R.id.iv_OpenDrawer);
 
         btn_play2 = (ImageButton) findViewById(R.id.btnPlay2);
+        handle_play = (ImageButton) findViewById(R.id.handle_play);
         btn_next2 = (ImageButton) findViewById(R.id.btnForward2);
         btn_prev2 = (ImageButton) findViewById(R.id.btnBackward2);
         tv_songName = (TextView) findViewById(R.id.tv_voiceTitle);
+        handle_songName = (TextView) findViewById(R.id.handle_songName);
+
         tv_voiceTotalDuration = (TextView) findViewById(R.id.tv_voiceDuration);
         btn_close_drawer = (ImageButton) findViewById(R.id.btn_close_drawer);
 
@@ -120,8 +125,11 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         tv_songCategory = (TextView) findViewById(R.id.tv_categoryName);
         tv_userName = (TextView) findViewById(R.id.tv_userName);
 
+        circularProgress2 = (CircularProgressView) findViewById(R.id.circularProgress2);
+        circularProgressBar2 = (ProgressBar) findViewById(R.id.circularProgressBar2);
 
         btn_play2.setOnClickListener(this);
+        handle_play.setOnClickListener(this);
         btn_next2.setOnClickListener(this);
         btn_prev2.setOnClickListener(this);
 
@@ -177,6 +185,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
         switch (id) {
             case R.id.btnPlay2:
+            case R.id.handle_play:
                 if (Constants.isPlaying) {
 
                     Constants.isPlaying = false;
@@ -185,6 +194,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                     Constants.arrayList.get(Constants.position).setPaused(true);
 
                     btn_play2.setImageResource(R.drawable.home_play);
+                    handle_play.setImageResource(android.R.drawable.ic_media_play);
                     mHandler.removeCallbacks(UpdateSongTime);
                     songsAdapter.notifyDataSetChanged();
                     Constants.callService(this, Constants.ACTION.NOTIFY_ACTION);
@@ -230,12 +240,24 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         Constants.mediaPlayer.reset();
 
         btn_play2.setEnabled(false);
+        handle_play.setEnabled(false);
         linearLayout_back.setBackgroundColor(Color.parseColor(Constants.arrayList.get(position).getColorCode()));
         btn_play2.setImageResource(R.drawable.home_pause);
+        handle_play.setImageResource(android.R.drawable.ic_media_pause);
         tv_songName.setText(Constants.arrayList.get(position).getSongsName());
+        handle_songName.setText(Constants.arrayList.get(position).getSongsName());
         tv_songCategory.setText(Constants.arrayList.get(position).getSongCategory());
         tv_userName.setText(Constants.arrayList.get(position).getArtistName());
         songsAdapter.notifyDataSetChanged();
+
+        if(Constants.arrayList.get(Constants.position).isBuffer()){
+            circularProgress2.setVisibility(View.VISIBLE);
+            circularProgress2.setIndeterminate(true);
+            startAnimationThreadStuff(0, circularProgress2);
+            circularProgress2.setEnabled(false);
+        }
+
+
     }
 
     public static void changePrepare() {
@@ -243,6 +265,13 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         finalTime = Constants.mediaPlayer.getDuration();
         startTime = Constants.mediaPlayer.getCurrentPosition();
         btn_play2.setEnabled(true);
+        handle_play.setEnabled(true);
+
+        if (circularProgress2.getVisibility() == View.VISIBLE) {
+            circularProgress2.setIndeterminate(false);
+            circularProgress2.stopAnimation();
+            circularProgress2.setVisibility(View.INVISIBLE);
+        }
 
         songProgress();
         songsAdapter.notifyDataSetChanged();
@@ -254,7 +283,9 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
         mHandler.removeCallbacks(UpdateSongTime);
         btn_play2.setImageResource(R.drawable.home_play);
+        handle_play.setImageResource(android.R.drawable.ic_media_play);
         btn_play2.setEnabled(true);
+        handle_play.setEnabled(true);
         songsAdapter.notifyDataSetChanged();
     }
 
@@ -279,6 +310,9 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                 TimeUnit.MILLISECONDS.toSeconds((long) finalTime)
                         - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes((long) finalTime))));
 
+        circularProgressBar2.setMax((int) finalTime);
+
+
     }
 
     public static Runnable UpdateSongTime = new Runnable() {
@@ -286,6 +320,8 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
             startTime = Constants.mediaPlayer.getCurrentPosition();
             timeRemaining = finalTime - startTime;
             Constants.timeLeft = timeRemaining;
+
+            circularProgressBar2.setProgress((int) startTime);
 
             tv_currentVoiceProgress.setText(String.format("%02d:%02d",
                     TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining),
@@ -298,7 +334,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         }
     };
 
-    private void startAnimationThreadStuff(long delay, final CircularProgressView progressView) {
+    private static void startAnimationThreadStuff(long delay, final CircularProgressView progressView) {
         if (updateThread != null && updateThread.isAlive())
             updateThread.interrupt();
         // Start animation after a delay so there's no missed frames while the app loads up
@@ -358,6 +394,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
                 return;
 
             ((ProgressBar) view.findViewById(R.id.circularProgressBar)).setProgress((int) startTime);
+
             ((TextView) view.findViewById(R.id.songCurrentDuration)).setText(String.format("%02d:%02d",
                     TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining),
                     TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining)
@@ -412,6 +449,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
                 holder.imageButtonPlay.setImageResource(R.drawable.home_pause);
                 btn_play2.setImageResource(R.drawable.home_pause);
+                handle_play.setImageResource(android.R.drawable.ic_media_pause);
 
                 holder.songCurrentDuration.setText(String.format("%02d:%02d",
                         TimeUnit.MILLISECONDS.toMinutes((long) finalTime),
@@ -443,6 +481,7 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
 
                 if (!songRow.isPlaying() && songRow.isPaused() && i == Constants.position) {
                     btn_play2.setImageResource(R.drawable.home_play);
+                    handle_play.setImageResource(android.R.drawable.ic_media_play);
                     holder.songCurrentDuration.setText(String.format("%02d:%02d",
                             TimeUnit.MILLISECONDS.toMinutes((long) timeRemaining),
                             TimeUnit.MILLISECONDS.toSeconds((long) timeRemaining)
@@ -551,7 +590,9 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         if (Constants.position != -1 && Constants.arrayList.get(Constants.position).isPlaying() && !Constants.arrayList.get(Constants.position).isPaused()) {
             linearLayout_back.setBackgroundColor(Color.parseColor(Constants.arrayList.get(Constants.position).getColorCode()));
             btn_play2.setImageResource(R.drawable.home_pause);
+            handle_play.setImageResource(android.R.drawable.ic_media_pause);
             tv_songName.setText(Constants.arrayList.get(Constants.position).getSongsName());
+            handle_songName.setText(Constants.arrayList.get(Constants.position).getSongsName());
             tv_songCategory.setText(Constants.arrayList.get(Constants.position).getSongCategory());
             tv_userName.setText(Constants.arrayList.get(Constants.position).getArtistName());
 
@@ -560,7 +601,9 @@ public class NewMediaPlayer extends AppCompatActivity implements ImageButton.OnC
         } else if (Constants.position != -1 && !Constants.arrayList.get(Constants.position).isPlaying() && Constants.arrayList.get(Constants.position).isPaused()) {
             linearLayout_back.setBackgroundColor(Color.parseColor(Constants.arrayList.get(Constants.position).getColorCode()));
             btn_play2.setImageResource(R.drawable.home_play);
+            handle_play.setImageResource(android.R.drawable.ic_media_play);
             tv_songName.setText(Constants.arrayList.get(Constants.position).getSongsName());
+            handle_songName.setText(Constants.arrayList.get(Constants.position).getSongsName());
             tv_songCategory.setText(Constants.arrayList.get(Constants.position).getSongCategory());
             tv_userName.setText(Constants.arrayList.get(Constants.position).getArtistName());
 
